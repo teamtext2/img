@@ -210,3 +210,86 @@
   </script>
 </body>
 </html>
+
+
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .glass-box {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      padding: 30px 40px;
+      text-align: center;
+      color: #fff;
+      max-width: 400px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .glass-box h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    .glass-box p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .btn-close {
+      padding: 10px 25px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      transition: 0.3s;
+    }
+
+    .btn-close:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+  </style>
+<body>
+
+<div class="overlay" id="appNotice">
+  <div class="glass-box">
+    <h2>🚧 Thông Báo Quang Trọng</h2>
+    <p>Các thiết bị mái tính có thể dùng bình thường nhưng khi dùng điện thoại có thể gặp sự cố do kích thước ứng dụng lớn (chúng mình sẽ xớm khắc phục) THANK YOU </p></p>
+    <button class="btn-close" onclick="closeNotice()">Continue</button>
+  </div>
+</div>
+
+<script>
+  function closeNotice() {
+    document.getElementById("appNotice").style.display = "none";
+  }
+</script>
+</body>
