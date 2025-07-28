@@ -144,24 +144,7 @@
              window.innerWidth <= 768;
     }
 
-    // Show mobile warning
-    function showMobileWarning() {
-      if (isMobile()) {
-        const warning = document.createElement('div');
-        warning.className = 'fixed top-0 left-0 w-full bg-yellow-500 text-white p-3 text-center z-50';
-        warning.innerHTML = `
-          <div class="flex items-center justify-center gap-2">
-            <span>⚠️</span>
-            <span>Mobile version may have limited functionality. For best experience, use desktop.</span>
-            <button onclick="this.parentElement.parentElement.remove()" class="ml-2 px-2 py-1 bg-white text-yellow-500 rounded text-sm">×</button>
-          </div>
-        `;
-        document.body.appendChild(warning);
-      }
-    }
 
-    // Call mobile warning on load
-    window.addEventListener('load', showMobileWarning);
 
     function uploadToPhotopea() {
       const fileInput = document.getElementById('fileInput');
