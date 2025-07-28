@@ -85,50 +85,39 @@
   <header class="bg-white shadow-md w-full sticky top-0 z-50">
     <div class="max-w-6xl mx-auto flex items-center py-3 px-4">
       <a href="https://text2.click" class="flex items-center gap-3">
-        <img src="https://img.text2.click/favicon.ico" alt="Text2 Img Design logo" class="w-10 h-10 rounded shadow" />
-        <span class="text-2xl font-bold text-indigo-700 tracking-wide">Text2</span>
+        <img src="https://img.text2.click/favicon.ico" alt="Text2 Img Design logo" class="w-8 h-8 md:w-10 md:h-10 rounded shadow" />
+        <span class="text-xl md:text-2xl font-bold text-indigo-700 tracking-wide">Text2</span>
       </a>
-      <span class="ml-4 text-gray-500 text-lg font-semibold">| Img Design - AI Image Design Tool</span>
+      <span class="ml-2 md:ml-4 text-gray-500 text-sm md:text-lg font-semibold hidden sm:block">| Img Design - design your photo</span>
     </div>
   </header>
 
-  <main class="flex-1 flex flex-col items-center justify-center py-8 px-2" id="mainContent">
-    <!-- SEO Content Section -->
-    <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-4xl mb-8 text-center">
-      <h1 class="text-3xl font-bold text-gray-800 mb-4">Text2 - Img Design</h1>
-      <p class="text-lg text-gray-600 mb-4">Professional AI-powered image design tool for editing PSD, PNG, JPG, and WebP files online</p>
-      <div class="flex flex-wrap justify-center gap-4 text-sm text-gray-500">
-        <span class="bg-indigo-100 px-3 py-1 rounded-full">Free Online Editor</span>
-        <span class="bg-indigo-100 px-3 py-1 rounded-full">PSD Support</span>
-        <span class="bg-indigo-100 px-3 py-1 rounded-full">AI-Powered</span>
-        <span class="bg-indigo-100 px-3 py-1 rounded-full">No Registration</span>
-      </div>
-    </div>
+  <main class="flex-1 flex flex-col items-center justify-center py-4 md:py-8 px-2" id="mainContent">
 
     <!-- Upload interface -->
-    <div id="uploadSection" class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-xl text-center border border-indigo-100">
-      <label class="block text-lg font-semibold mb-2">📂 Select a PSD / PNG / JPG image file from your device:</label>
-      <input id="fileInput" type="file" accept=".psd,.png,.jpg,.jpeg,.webp" class="mb-4 block w-full text-gray-800 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400">
-      <button onclick="uploadToPhotopea()" class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition">Start Designing with Text2 Img Design</button>
+    <div id="uploadSection" class="bg-white p-4 md:p-8 rounded-2xl shadow-xl w-full max-w-xl text-center border border-indigo-100">
+      <label class="block text-base md:text-lg font-semibold mb-2">📂 Select a PSD / PNG / JPG image file from your device:</label>
+      <input id="fileInput" type="file" accept=".psd,.png,.jpg,.jpeg,.webp" class="mb-4 block w-full text-gray-800 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-sm md:text-base">
+      <button onclick="uploadToPhotopea()" class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition text-sm md:text-base">Start Designing with Text2 Img Design</button>
     </div>
 
     <!-- Fullscreen app interface after upload -->
     <div id="photopeaApp" class="hidden fixed inset-0 z-50 flex flex-col bg-white">
       <!-- Toolbar -->
-      <div class="flex items-center justify-between bg-indigo-700 px-4 py-2 shadow-lg">
+      <div class="flex items-center justify-between bg-indigo-700 px-2 md:px-4 py-2 shadow-lg">
         <div class="flex items-center gap-2">
           <a href="https://text2.click" target="_blank" class="flex items-center gap-2">
-            <img src="https://img.text2.click/favicon.ico" alt="Text2 Img Design logo" class="w-8 h-8 rounded" />
-            <span class="text-white text-xl font-bold tracking-wide">Text2</span>
+            <img src="https://img.text2.click/favicon.ico" alt="Text2 Img Design logo" class="w-6 h-6 md:w-8 md:h-8 rounded" />
+            <span class="text-white text-lg md:text-xl font-bold tracking-wide">Text2</span>
           </a>
         </div>
-        <div class="flex items-center gap-2">
-          <button onclick="addImageToPhotopea()" class="bg-white text-indigo-700 font-semibold px-3 py-1 rounded hover:bg-indigo-100 transition flex items-center gap-1"><span>➕</span> Add Image</button>
-          <button onclick="closePhotopeaApp()" class="bg-red-500 text-white font-bold px-3 py-1 rounded hover:bg-red-600 transition ml-2">✖ Close</button>
+        <div class="flex items-center gap-1 md:gap-2">
+          <button onclick="addImageToPhotopea()" class="bg-white text-indigo-700 font-semibold px-2 md:px-3 py-1 rounded hover:bg-indigo-100 transition flex items-center gap-1 text-xs md:text-sm"><span>➕</span> <span class="hidden sm:inline">Add Image</span></button>
+          <button onclick="closePhotopeaApp()" class="bg-red-500 text-white font-bold px-2 md:px-3 py-1 rounded hover:bg-red-600 transition ml-1 md:ml-2 text-xs md:text-sm">✖ <span class="hidden sm:inline">Close</span></button>
         </div>
       </div>
       <!-- Photopea iframe -->
-      <div class="flex-1">
+      <div class="flex-1 relative">
         <iframe id="photopeaFrame" class="w-full h-full border-none" style="min-height: 70vh;" title="Text2 Img Design Editor"></iframe>
       </div>
     </div>
@@ -149,6 +138,31 @@
   </footer>
 
   <script>
+    // Mobile detection
+    function isMobile() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+             window.innerWidth <= 768;
+    }
+
+    // Show mobile warning
+    function showMobileWarning() {
+      if (isMobile()) {
+        const warning = document.createElement('div');
+        warning.className = 'fixed top-0 left-0 w-full bg-yellow-500 text-white p-3 text-center z-50';
+        warning.innerHTML = `
+          <div class="flex items-center justify-center gap-2">
+            <span>⚠️</span>
+            <span>Mobile version may have limited functionality. For best experience, use desktop.</span>
+            <button onclick="this.parentElement.parentElement.remove()" class="ml-2 px-2 py-1 bg-white text-yellow-500 rounded text-sm">×</button>
+          </div>
+        `;
+        document.body.appendChild(warning);
+      }
+    }
+
+    // Call mobile warning on load
+    window.addEventListener('load', showMobileWarning);
+
     function uploadToPhotopea() {
       const fileInput = document.getElementById('fileInput');
       const file = fileInput.files[0];
@@ -157,23 +171,65 @@
         return;
       }
 
+      // Check file size for mobile
+      if (isMobile() && file.size > 10 * 1024 * 1024) { // 10MB limit for mobile
+        alert("File too large for mobile. Please use a smaller file (< 10MB) or use desktop.");
+        return;
+      }
+
+      // Show loading indicator
+      const loadingDiv = document.createElement('div');
+      loadingDiv.id = 'loading';
+      loadingDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+      loadingDiv.innerHTML = `
+        <div class="bg-white p-6 rounded-lg text-center">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+          <p>Loading image editor...</p>
+        </div>
+      `;
+      document.body.appendChild(loadingDiv);
+
       const reader = new FileReader();
       reader.onload = function(e) {
-        const dataUrl = e.target.result;
+        try {
+          const dataUrl = e.target.result;
 
-        const config = {
-          files: [dataUrl],
-          script: 'app.echoToOE("Image loaded into Photopea!");'
-        };
+          const config = {
+            files: [dataUrl],
+            script: 'app.echoToOE("Image loaded into Photopea!");'
+          };
 
-        const encoded = encodeURIComponent(JSON.stringify(config));
-        const iframe = document.getElementById('photopeaFrame');
-        iframe.src = "https://www.photopea.com#" + encoded;
+          const encoded = encodeURIComponent(JSON.stringify(config));
+          const iframe = document.getElementById('photopeaFrame');
+          
+          // Add error handling for iframe
+          iframe.onload = function() {
+            document.getElementById('loading').remove();
+          };
+          
+          iframe.onerror = function() {
+            document.getElementById('loading').remove();
+            alert("Failed to load image editor. Please try again or use desktop version.");
+            return;
+          };
 
-        // Hide upload, show full app
-        document.getElementById('uploadSection').classList.add('hidden');
-        document.getElementById('photopeaApp').classList.remove('hidden');
+          iframe.src = "https://www.photopea.com#" + encoded;
+
+          // Hide upload, show full app
+          document.getElementById('uploadSection').classList.add('hidden');
+          document.getElementById('photopeaApp').classList.remove('hidden');
+        } catch (error) {
+          document.getElementById('loading').remove();
+          console.error('Error loading file:', error);
+          alert("Error loading file. Please try again or use a different file.");
+        }
       };
+      
+      reader.onerror = function() {
+        document.getElementById('loading').remove();
+        alert("Error reading file. Please try again.");
+      };
+      
       reader.readAsDataURL(file);
     }
 
@@ -192,16 +248,33 @@
       input.onchange = function(event) {
         const file = event.target.files[0];
         if (!file) return;
+        
+        // Check file size for mobile
+        if (isMobile() && file.size > 10 * 1024 * 1024) {
+          alert("File too large for mobile. Please use a smaller file (< 10MB).");
+          return;
+        }
+        
         const reader = new FileReader();
         reader.onload = function(e) {
-          const dataUrl = e.target.result;
-          // Send script to open image in Photopea
-          const script = `app.open('${dataUrl}');`;
-          const message = {
-            type: 'script',
-            script: script
-          };
-          document.getElementById('photopeaFrame').contentWindow.postMessage(message, '*');
+          try {
+            const dataUrl = e.target.result;
+            // Send script to open image in Photopea
+            const script = `app.open('${dataUrl}');`;
+            const message = {
+              type: 'script',
+              script: script
+            };
+            const iframe = document.getElementById('photopeaFrame');
+            if (iframe.contentWindow) {
+              iframe.contentWindow.postMessage(message, '*');
+            } else {
+              alert("Editor not ready. Please wait a moment and try again.");
+            }
+          } catch (error) {
+            console.error('Error adding image:', error);
+            alert("Error adding image. Please try again.");
+          }
         };
         reader.readAsDataURL(file);
       };
@@ -210,86 +283,3 @@
   </script>
 </body>
 </html>
-
-
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body, html {
-      height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    .overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(8px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-
-    .glass-box {
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 20px;
-      padding: 30px 40px;
-      text-align: center;
-      color: #fff;
-      max-width: 400px;
-      backdrop-filter: blur(15px);
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-      transition: all 0.3s ease-in-out;
-    }
-
-    .glass-box h2 {
-      font-size: 24px;
-      margin-bottom: 15px;
-    }
-
-    .glass-box p {
-      font-size: 16px;
-      line-height: 1.6;
-      margin-bottom: 25px;
-    }
-
-    .btn-close {
-      padding: 10px 25px;
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 15px;
-      cursor: pointer;
-      backdrop-filter: blur(4px);
-      transition: 0.3s;
-    }
-
-    .btn-close:hover {
-      background: rgba(255, 255, 255, 0.4);
-    }
-  </style>
-<body>
-
-<div class="overlay" id="appNotice">
-  <div class="glass-box">
-    <h2>🚧 Thông Báo Quang Trọng</h2>
-    <p>Các thiết bị mái tính có thể dùng bình thường nhưng khi dùng điện thoại có thể gặp sự cố do kích thước ứng dụng lớn (chúng mình sẽ xớm khắc phục) THANK YOU </p></p>
-    <button class="btn-close" onclick="closeNotice()">Continue</button>
-  </div>
-</div>
-
-<script>
-  function closeNotice() {
-    document.getElementById("appNotice").style.display = "none";
-  }
-</script>
-</body>
