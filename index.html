@@ -98,7 +98,17 @@
     <div id="uploadSection" class="bg-white p-4 md:p-8 rounded-2xl shadow-xl w-full max-w-xl text-center border border-indigo-100">
       <label class="block text-base md:text-lg font-semibold mb-2">📂 Select a PSD / PNG / JPG image file from your device:</label>
       <input id="fileInput" type="file" accept=".psd,.png,.jpg,.jpeg,.webp" class="mb-4 block w-full text-gray-800 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-sm md:text-base">
+      
       <button onclick="uploadToPhotopea()" class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition text-sm md:text-base">Start Designing with Text2 Img Design</button>
+      
+      <!-- Banner quảng cáo -->
+      <div id="bannerAd" class="mt-6 mb-4 flex flex-col items-center relative">
+        <span class="text-xs text-gray-400 mb-2">Quảng cáo</span>
+        <button onclick="document.getElementById('bannerAd').style.display='none'" class="absolute top-1 right-1 bg-gray-200 hover:bg-gray-300 text-gray-600 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold shadow">×</button>
+        <a href="https://text2.click" target="_blank" rel="noopener" class="block">
+          <img src="#" alt="Quảng cáo" class="rounded shadow hover:scale-105 transition" />
+        </a>
+      </div>
     </div>
 
     <!-- Fullscreen app interface after upload -->
@@ -128,7 +138,7 @@
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between px-4 text-gray-500 text-sm">
       <div class="flex items-center gap-2">
         <img src="https://img.text2.click/favicon.ico" alt="Text2 Img Design logo" class="w-6 h-6" />
-        <span>© 2024 <a href="https://text2.click" class="text-indigo-600 hover:underline font-semibold">Text2 Img Design</a>. All rights reserved.</span>
+        <span>© 2024 <a href="https://text2.click" class="text-indigo-600 hover:underline font-semibold">Text2 Img Design</a>.Text2 Img Design is powered by Photopea.</span>
       </div>
       <div class="mt-2 md:mt-0">
         <a href="https://text2.click" class="hover:underline">Home</a> |
