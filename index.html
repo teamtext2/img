@@ -123,9 +123,30 @@
           <button onclick="closePhotopeaApp()" class="bg-red-500 text-white font-bold px-2 md:px-3 py-1 rounded hover:bg-red-600 transition ml-1 md:ml-2 text-xs md:text-sm">✖ <span class="hidden sm:inline">Close</span></button>
         </div>
       </div>
-      <!-- Photopea iframe -->
-      <div class="flex-1 relative">
-        <iframe id="photopeaFrame" class="w-full h-full border-none" style="min-height: 70vh;" title="Text2 Img Design Editor"></iframe>
+      <!-- Mobile-specific interface -->
+      <div id="mobileInterface" class="md:hidden flex flex-col flex-1">
+        <div class="flex-1 flex items-center justify-center bg-gray-50">
+          <div class="text-center p-6">
+            <div class="text-6xl mb-4">📱</div>
+            <h3 class="text-xl font-semibold mb-2">Mobile Editor</h3>
+            <p class="text-gray-600 mb-4">For the best editing experience on mobile, we recommend:</p>
+            <div class="space-y-2 text-sm text-gray-500">
+              <p>• Use desktop version for complex editing</p>
+              <p>• Ensure stable internet connection</p>
+              <p>• Try landscape orientation</p>
+            </div>
+            <button onclick="openPhotopeaInNewTab()" class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+              Open in New Tab
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Desktop iframe interface -->
+      <div id="desktopInterface" class="hidden md:flex flex-col flex-1">
+        <div class="flex-1 relative">
+          <iframe id="photopeaFrame" class="w-full h-full border-none" style="min-height: 70vh;" title="Text2 Img Design Editor"></iframe>
+        </div>
       </div>
     </div>
   </main>
@@ -416,18 +437,29 @@
         };
 
         const encoded = encodeURIComponent(JSON.stringify(config));
-        const iframe = document.getElementById('photopeaFrame');
-        
-        // Step 5: Load Photopea with enhanced error handling
-        updateLoadingStatus(loadingDiv, 'Loading image editor...');
-        await loadPhotopeaWithRetry(iframe, encoded, validation.isMobile);
         
         // Success - hide loading and show app
         loadingDiv.remove();
         document.getElementById('uploadSection').classList.add('hidden');
         document.getElementById('photopeaApp').classList.remove('hidden');
         
-        logDebug('Photopea loaded successfully');
+        // Show appropriate interface based on device
+        const capabilities = getDeviceCapabilities();
+        if (capabilities.isMobile) {
+          // For mobile, show mobile interface
+          document.getElementById('mobileInterface').classList.remove('hidden');
+          document.getElementById('desktopInterface').classList.add('hidden');
+          logDebug('Showing mobile interface');
+        } else {
+          // For desktop, load Photopea iframe
+          document.getElementById('mobileInterface').classList.add('hidden');
+          document.getElementById('desktopInterface').classList.remove('hidden');
+          
+          const iframe = document.getElementById('photopeaFrame');
+          updateLoadingStatus(loadingDiv, 'Loading image editor...');
+          await loadPhotopeaWithRetry(iframe, encoded, false);
+          logDebug('Photopea loaded successfully on desktop');
+        }
         
       } catch (error) {
         loadingDiv.remove();
@@ -544,9 +576,14 @@
     // Enhanced close function
     function closePhotopeaApp() {
       const iframe = document.getElementById('photopeaFrame');
-      iframe.src = ""; // reset
+      if (iframe) iframe.src = ""; // reset if iframe exists
       document.getElementById('uploadSection').classList.remove('hidden');
       document.getElementById('photopeaApp').classList.add('hidden');
+      
+      // Hide both interfaces
+      document.getElementById('mobileInterface').classList.add('hidden');
+      document.getElementById('desktopInterface').classList.add('hidden');
+      
       logDebug('Photopea app closed');
       
       // Clear any stored data
@@ -555,8 +592,45 @@
       }
     }
 
+    // Function to open Photopea in new tab for mobile users
+    function openPhotopeaInNewTab() {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+      
+      if (!file) {
+        alert('Please select a file first');
+        return;
+      }
+      
+      // Create a temporary link to open Photopea with the file
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        const config = {
+          files: [dataUrl],
+          script: 'app.echoToOE("Image loaded into Photopea successfully!");'
+        };
+        
+        const encoded = encodeURIComponent(JSON.stringify(config));
+        const photopeaUrl = "https://www.photopea.com#" + encoded;
+        
+        // Open in new tab
+        window.open(photopeaUrl, '_blank');
+        logDebug('Opened Photopea in new tab for mobile user');
+      };
+      
+      reader.readAsDataURL(file);
+    }
+
     // Enhanced add image function with better error handling
     function addImageToPhotopea() {
+      const capabilities = getDeviceCapabilities();
+      
+      if (capabilities.isMobile) {
+        alert('Adding images is not supported on mobile. Please use the desktop version for full functionality.');
+        return;
+      }
+      
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = '.psd,.png,.jpg,.jpeg,.webp';
@@ -583,7 +657,7 @@
           };
           
           const iframe = document.getElementById('photopeaFrame');
-          if (iframe.contentWindow) {
+          if (iframe && iframe.contentWindow) {
             iframe.contentWindow.postMessage(message, '*');
             logDebug('Sent add image message to Photopea');
           } else {
