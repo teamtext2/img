@@ -101,6 +101,13 @@
       
       <button onclick="uploadToPhotopea()" class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition text-sm md:text-base">Start Designing with Text2 Img Design</button>
       
+      <!-- Mobile warning -->
+      <div id="mobileWarning" class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800 text-sm hidden">
+        <p class="font-semibold">📱 Mobile Device Detected</p>
+        <p>For best experience, ensure stable internet connection and use files under 50MB.</p>
+      </div>
+    </div>
+
     <!-- Fullscreen app interface after upload -->
     <div id="photopeaApp" class="hidden fixed inset-0 z-50 flex flex-col bg-white">
       <!-- Toolbar -->
@@ -138,6 +145,9 @@
   </footer>
 
   <script>
+    // Global variables
+    let globalCapabilities = null;
+
     // Enhanced mobile detection with better device profiling
     function isMobile() {
       return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
@@ -146,7 +156,9 @@
 
     // Device capability detection
     function getDeviceCapabilities() {
-      const capabilities = {
+      if (globalCapabilities) return globalCapabilities;
+      
+      globalCapabilities = {
         isMobile: isMobile(),
         hasTouch: 'ontouchstart' in window,
         hasServiceWorker: 'serviceWorker' in navigator,
@@ -167,8 +179,8 @@
         cores: navigator.hardwareConcurrency || 'unknown'
       };
       
-      console.log('Device capabilities:', capabilities);
-      return capabilities;
+      console.log('Device capabilities:', globalCapabilities);
+      return globalCapabilities;
     }
 
     // Enhanced debug logging with device context
@@ -201,7 +213,7 @@
       // Check basic online status
       if (!status.isOnline) {
         logDebug('Device is offline', 'error');
-        return status;
+        return Promise.resolve(status);
       }
 
       // Check connection type and quality
@@ -234,8 +246,7 @@
         fetch(endpoint, { 
           method: 'HEAD', 
           mode: 'no-cors',
-          cache: 'no-cache',
-          timeout: 5000
+          cache: 'no-cache'
         }).then(() => ({ endpoint, success: true }))
         .catch(() => ({ endpoint, success: false }))
       );
@@ -316,6 +327,7 @@
     // Enhanced file validation with better error handling
     function validateFile(file) {
       const errors = [];
+      const capabilities = getDeviceCapabilities();
       
       // Check file existence
       if (!file) {
@@ -330,7 +342,10 @@
         errors.push(`File type ${fileExtension} not supported. Allowed: ${allowedTypes.join(', ')}`);
       }
       
-      // File size check removed - no size limitations
+      // File size check - no size limitations for desktop, reasonable limits for mobile
+      if (capabilities.isMobile && file.size > 100 * 1024 * 1024) { // 100MB limit for mobile
+        errors.push('File size too large for mobile devices. Please use files under 100MB or try on desktop.');
+      }
       
       // Check if file is corrupted
       if (file.size === 0) {
@@ -408,14 +423,14 @@
         await loadPhotopeaWithRetry(iframe, encoded, validation.isMobile);
         
         // Success - hide loading and show app
-        document.getElementById('loading').remove();
+        loadingDiv.remove();
         document.getElementById('uploadSection').classList.add('hidden');
         document.getElementById('photopeaApp').classList.remove('hidden');
         
         logDebug('Photopea loaded successfully');
         
       } catch (error) {
-        document.getElementById('loading').remove();
+        loadingDiv.remove();
         logDebug(`Upload failed: ${error.message}`, 'error');
         
         // Show user-friendly error message
@@ -520,7 +535,7 @@
       const baseMessage = error.message;
       
       if (validation.isMobile) {
-        return `Mobile Error: ${baseMessage}\n\nTroubleshooting:\n1. Use files smaller than 10MB\n2. Ensure stable WiFi connection\n3. Try desktop version if issues persist\n4. Clear browser cache and try again`;
+        return `Mobile Error: ${baseMessage}\n\nTroubleshooting:\n1. Use files smaller than 100MB\n2. Ensure stable WiFi connection\n3. Try desktop version if issues persist\n4. Clear browser cache and try again`;
       } else {
         return `Error: ${baseMessage}\n\nTroubleshooting:\n1. Check internet connection\n2. Try refreshing the page\n3. Use a different browser\n4. Contact support if issue persists`;
       }
