@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   
   <!-- SEO Meta Tags -->
-  <title>Text2 - Img Design | Design Free Online IMG </title>
+  <title>Text2 - Img Design </title>
   <meta name="description" content="Text2 Img Design - Free AI-powered image design tool. Edit PSD, PNG, JPG files online with professional tools. Create stunning designs with our advanced image editor.">
   <meta name="keywords" content="Text2 Img Design, Img Design, AI Image Design, Online Image Editor, PSD Editor, Photo Editor, Design Tool, Free Image Design, Text2 Design">
   <meta name="author" content="Text2">
@@ -159,245 +159,462 @@
   </footer>
 
   <script>
-    // Mobile detection
+    // Enhanced mobile detection with better device profiling
     function isMobile() {
       return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
              window.innerWidth <= 768;
     }
 
-    // Debug logging for mobile
-    function logDebug(message) {
-      if (isMobile()) {
-        console.log('[Mobile Debug]:', message);
+    // Device capability detection
+    function getDeviceCapabilities() {
+      const capabilities = {
+        isMobile: isMobile(),
+        hasTouch: 'ontouchstart' in window,
+        hasServiceWorker: 'serviceWorker' in navigator,
+        hasWebGL: (() => {
+          try {
+            const canvas = document.createElement('canvas');
+            return !!(window.WebGLRenderingContext && 
+              (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+          } catch (e) {
+            return false;
+          }
+        })(),
+        connectionType: (() => {
+          const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+          return connection ? connection.effectiveType : 'unknown';
+        })(),
+        memory: navigator.deviceMemory || 'unknown',
+        cores: navigator.hardwareConcurrency || 'unknown'
+      };
+      
+      console.log('Device capabilities:', capabilities);
+      return capabilities;
+    }
+
+    // Enhanced debug logging with device context
+    function logDebug(message, level = 'info') {
+      const capabilities = getDeviceCapabilities();
+      const timestamp = new Date().toISOString();
+      const logMessage = `[${timestamp}] [${level.toUpperCase()}] [${capabilities.isMobile ? 'Mobile' : 'Desktop'}] ${message}`;
+      
+      console.log(logMessage);
+      
+      // Store logs for debugging
+      if (!window.debugLogs) window.debugLogs = [];
+      window.debugLogs.push(logMessage);
+      
+      // Keep only last 100 logs
+      if (window.debugLogs.length > 100) {
+        window.debugLogs = window.debugLogs.slice(-100);
       }
     }
 
-    // Check if Photopea is accessible
-    function checkPhotopeaAccess() {
-      return new Promise((resolve) => {
-        const testIframe = document.createElement('iframe');
-        testIframe.style.display = 'none';
-        testIframe.src = 'https://www.photopea.com';
-        
-        const timeout = setTimeout(() => {
-          if (document.body.contains(testIframe)) {
-            document.body.removeChild(testIframe);
-          }
-          resolve(false);
-        }, 5000);
-        
-        testIframe.onload = () => {
-          clearTimeout(timeout);
-          if (document.body.contains(testIframe)) {
-            document.body.removeChild(testIframe);
-          }
-          resolve(true);
-        };
-        
-        testIframe.onerror = () => {
-          clearTimeout(timeout);
-          if (document.body.contains(testIframe)) {
-            document.body.removeChild(testIframe);
-          }
-          resolve(false);
-        };
-        
-        document.body.appendChild(testIframe);
+    // Enhanced network status checking with multiple fallbacks
+    function checkNetworkStatus() {
+      const status = {
+        isOnline: navigator.onLine,
+        connectionType: 'unknown',
+        isStable: true,
+        latency: null
+      };
+
+      // Check basic online status
+      if (!status.isOnline) {
+        logDebug('Device is offline', 'error');
+        return status;
+      }
+
+      // Check connection type and quality
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (connection) {
+        status.connectionType = connection.effectiveType;
+        status.isStable = connection.effectiveType !== 'slow-2g' && connection.effectiveType !== '2g';
+        logDebug(`Connection type: ${status.connectionType}, stable: ${status.isStable}`);
+      }
+
+      // Test actual connectivity with multiple endpoints
+      return testConnectivity().then(connectivityResult => {
+        Object.assign(status, connectivityResult);
+        return status;
+      }).catch(() => {
+        logDebug('Connectivity test failed, using fallback status', 'warn');
+        return status;
       });
     }
 
-    // Check network connectivity
-    function checkNetworkStatus() {
-      if (!navigator.onLine) {
-        logDebug('Device is offline');
-        return false;
-      }
-      
-      if (isMobile()) {
-        // Check for slow connection on mobile
-        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        if (connection) {
-          logDebug('Connection type: ' + connection.effectiveType);
-          if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
-            return false;
-          }
-        }
-      }
-      
-      return true;
+    // Test actual connectivity to multiple endpoints
+    function testConnectivity() {
+      const endpoints = [
+        'https://www.google.com/favicon.ico',
+        'https://www.cloudflare.com/favicon.ico',
+        'https://www.photopea.com/favicon.ico'
+      ];
+
+      const tests = endpoints.map(endpoint => 
+        fetch(endpoint, { 
+          method: 'HEAD', 
+          mode: 'no-cors',
+          cache: 'no-cache',
+          timeout: 5000
+        }).then(() => ({ endpoint, success: true }))
+        .catch(() => ({ endpoint, success: false }))
+      );
+
+      return Promise.race([
+        Promise.allSettled(tests),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 10000))
+      ]).then(results => {
+        const successfulTests = results.filter(r => r.status === 'fulfilled' && r.value.success).length;
+        const successRate = successfulTests / endpoints.length;
+        
+        return {
+          connectivityTest: successRate > 0.5,
+          successRate: successRate,
+          latency: Date.now() // Simple latency measurement
+        };
+      });
     }
 
-    function uploadToPhotopea() {
+    // Enhanced Photopea accessibility check with retry mechanism
+    function checkPhotopeaAccess(maxRetries = 3) {
+      return new Promise((resolve) => {
+        let attempts = 0;
+        
+        const attemptConnection = () => {
+          attempts++;
+          logDebug(`Photopea access check attempt ${attempts}/${maxRetries}`);
+          
+          const testIframe = document.createElement('iframe');
+          testIframe.style.display = 'none';
+          testIframe.src = 'https://www.photopea.com';
+          
+          const timeout = setTimeout(() => {
+            if (document.body.contains(testIframe)) {
+              document.body.removeChild(testIframe);
+            }
+            
+            if (attempts < maxRetries) {
+              logDebug(`Attempt ${attempts} failed, retrying...`, 'warn');
+              setTimeout(attemptConnection, 1000 * attempts); // Exponential backoff
+            } else {
+              logDebug('All Photopea access attempts failed', 'error');
+              resolve(false);
+            }
+          }, 5000);
+          
+          testIframe.onload = () => {
+            clearTimeout(timeout);
+            if (document.body.contains(testIframe)) {
+              document.body.removeChild(testIframe);
+            }
+            logDebug(`Photopea access check successful on attempt ${attempts}`);
+            resolve(true);
+          };
+          
+          testIframe.onerror = () => {
+            clearTimeout(timeout);
+            if (document.body.contains(testIframe)) {
+              document.body.removeChild(testIframe);
+            }
+            
+            if (attempts < maxRetries) {
+              logDebug(`Attempt ${attempts} failed, retrying...`, 'warn');
+              setTimeout(attemptConnection, 1000 * attempts);
+            } else {
+              logDebug('All Photopea access attempts failed', 'error');
+              resolve(false);
+            }
+          };
+          
+          document.body.appendChild(testIframe);
+        };
+        
+        attemptConnection();
+      });
+    }
+
+    // Enhanced file validation with better error handling
+    function validateFile(file) {
+      const errors = [];
+      
+      // Check file existence
+      if (!file) {
+        errors.push('No file selected');
+        return { valid: false, errors };
+      }
+      
+      // Check file type
+      const allowedTypes = ['.psd', '.png', '.jpg', '.jpeg', '.webp'];
+      const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+      if (!allowedTypes.includes(fileExtension)) {
+        errors.push(`File type ${fileExtension} not supported. Allowed: ${allowedTypes.join(', ')}`);
+      }
+      
+      // Check file size with device-specific limits
+      const capabilities = getDeviceCapabilities();
+      const maxSize = capabilities.isMobile ? 10 * 1024 * 1024 : 50 * 1024 * 1024; // 10MB mobile, 50MB desktop
+      if (file.size > maxSize) {
+        errors.push(`File too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Max: ${(maxSize / 1024 / 1024).toFixed(0)}MB`);
+      }
+      
+      // Check if file is corrupted
+      if (file.size === 0) {
+        errors.push('File appears to be empty or corrupted');
+      }
+      
+      return {
+        valid: errors.length === 0,
+        errors,
+        fileExtension,
+        fileSize: file.size,
+        isMobile: capabilities.isMobile
+      };
+    }
+
+    // Enhanced upload function with comprehensive error handling
+    async function uploadToPhotopea() {
       const fileInput = document.getElementById('fileInput');
       const file = fileInput.files[0];
-      if (!file) {
-        alert("Please select a file.");
+      
+      // Validate file first
+      const validation = validateFile(file);
+      if (!validation.valid) {
+        alert(`File validation failed:\n${validation.errors.join('\n')}`);
         return;
       }
 
-      logDebug('Starting file upload process');
+      logDebug(`Starting file upload: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)}MB)`);
 
-      // Check network status first
-      if (!checkNetworkStatus()) {
-        alert("Poor network connection detected. Please check your internet connection and try again.");
-        return;
+      // Show enhanced loading indicator
+      const loadingDiv = createLoadingIndicator();
+      document.body.appendChild(loadingDiv);
+
+      try {
+        // Step 1: Check network status
+        updateLoadingStatus(loadingDiv, 'Checking network connection...');
+        const networkStatus = await checkNetworkStatus();
+        
+        if (!networkStatus.isOnline) {
+          throw new Error('Device is offline. Please check your internet connection.');
+        }
+        
+        if (!networkStatus.connectivityTest) {
+          throw new Error('Network connectivity test failed. Please check your connection and try again.');
+        }
+
+        // Step 2: Check Photopea accessibility with retry
+        updateLoadingStatus(loadingDiv, 'Testing image editor accessibility...');
+        const isAccessible = await checkPhotopeaAccess(3);
+        
+        if (!isAccessible) {
+          if (validation.isMobile) {
+            throw new Error('Image editor accessibility test failed on mobile. Please try:\n1. Use desktop version\n2. Check your internet connection\n3. Try a different browser');
+          } else {
+            throw new Error('Image editor accessibility test failed. Please check your internet connection and try again.');
+          }
+        }
+
+        // Step 3: Read and process file
+        updateLoadingStatus(loadingDiv, 'Processing image file...');
+        const dataUrl = await readFileAsDataURL(file);
+        
+        // Step 4: Prepare Photopea configuration
+        updateLoadingStatus(loadingDiv, 'Preparing editor...');
+        const config = {
+          files: [dataUrl],
+          script: 'app.echoToOE("Image loaded into Photopea successfully!");'
+        };
+
+        const encoded = encodeURIComponent(JSON.stringify(config));
+        const iframe = document.getElementById('photopeaFrame');
+        
+        // Step 5: Load Photopea with enhanced error handling
+        updateLoadingStatus(loadingDiv, 'Loading image editor...');
+        await loadPhotopeaWithRetry(iframe, encoded, validation.isMobile);
+        
+        // Success - hide loading and show app
+        document.getElementById('loading').remove();
+        document.getElementById('uploadSection').classList.add('hidden');
+        document.getElementById('photopeaApp').classList.remove('hidden');
+        
+        logDebug('Photopea loaded successfully');
+        
+      } catch (error) {
+        document.getElementById('loading').remove();
+        logDebug(`Upload failed: ${error.message}`, 'error');
+        
+        // Show user-friendly error message
+        const errorMessage = getErrorMessage(error, validation);
+        alert(errorMessage);
       }
+    }
 
-      // Check file size for mobile
-      if (isMobile() && file.size > 10 * 1024 * 1024) { // 10MB limit for mobile
-        alert("File too large for mobile. Please use a smaller file (< 10MB) or use desktop.");
-        return;
-      }
-
-      // Show loading indicator
+    // Create enhanced loading indicator
+    function createLoadingIndicator() {
       const loadingDiv = document.createElement('div');
       loadingDiv.id = 'loading';
       loadingDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
       loadingDiv.innerHTML = `
-        <div class="bg-white p-6 rounded-lg text-center">
+        <div class="bg-white p-6 rounded-lg text-center max-w-md mx-4">
           <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
-          <p>Loading image editor...</p>
-          <p class="text-sm text-gray-500 mt-2">This may take a moment on mobile devices</p>
+          <h3 class="text-lg font-semibold mb-2">Loading Image Editor</h3>
+          <p id="loadingStatus" class="text-gray-600">Initializing...</p>
+          <div class="mt-4 text-xs text-gray-500">
+            <p>This may take a moment on mobile devices</p>
+            <p>Please ensure stable internet connection</p>
+          </div>
         </div>
       `;
-      document.body.appendChild(loadingDiv);
+      return loadingDiv;
+    }
 
-      // Check Photopea accessibility first
-      checkPhotopeaAccess().then(isAccessible => {
-        if (!isAccessible && isMobile()) {
-          logDebug('Photopea not accessible on mobile');
-          document.getElementById('loading').remove();
-          alert("Image editor may not work properly on mobile. Please try:\n1. Use desktop version\n2. Check your internet connection\n3. Try a different browser");
-          return;
-        }
+    // Update loading status
+    function updateLoadingStatus(loadingDiv, status) {
+      const statusElement = loadingDiv.querySelector('#loadingStatus');
+      if (statusElement) {
+        statusElement.textContent = status;
+      }
+    }
 
+    // Read file as data URL with error handling
+    function readFileAsDataURL(file) {
+      return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        
+        reader.onload = (e) => {
           try {
             const dataUrl = e.target.result;
-            logDebug('File read successfully, size: ' + dataUrl.length);
-
-            const config = {
-              files: [dataUrl],
-              script: 'app.echoToOE("Image loaded into Photopea!");'
-            };
-
-            const encoded = encodeURIComponent(JSON.stringify(config));
-            const iframe = document.getElementById('photopeaFrame');
-            
-            // Add timeout for mobile
-            const loadTimeout = setTimeout(() => {
-              if (document.getElementById('loading')) {
-                document.getElementById('loading').remove();
-                alert("Loading timeout on mobile. Please try:\n1. Use desktop version\n2. Check your internet connection\n3. Try a smaller file");
-                logDebug('Loading timeout occurred');
-              }
-            }, isMobile() ? 30000 : 15000); // 30s timeout for mobile, 15s for desktop
-            
-            // Add error handling for iframe
-            iframe.onload = function() {
-              clearTimeout(loadTimeout);
-              document.getElementById('loading').remove();
-              logDebug('Photopea iframe loaded successfully');
-            };
-            
-            iframe.onerror = function() {
-              clearTimeout(loadTimeout);
-              document.getElementById('loading').remove();
-              logDebug('Photopea iframe failed to load');
-              alert("Failed to load image editor. Please try again or use desktop version.");
-              return;
-            };
-
-            // Add message listener for mobile debugging
-            window.addEventListener('message', function(event) {
-              if (event.origin === 'https://www.photopea.com') {
-                logDebug('Received message from Photopea: ' + JSON.stringify(event.data));
-              }
-            });
-
-            iframe.src = "https://www.photopea.com#" + encoded;
-
-            // Hide upload, show full app
-            document.getElementById('uploadSection').classList.add('hidden');
-            document.getElementById('photopeaApp').classList.remove('hidden');
+            logDebug(`File read successfully, size: ${dataUrl.length} characters`);
+            resolve(dataUrl);
           } catch (error) {
-            document.getElementById('loading').remove();
-            console.error('Error loading file:', error);
-            logDebug('Error in file processing: ' + error.message);
-            alert("Error loading file. Please try again or use a different file.");
+            reject(new Error(`Failed to process file: ${error.message}`));
           }
         };
         
-        reader.onerror = function() {
-          document.getElementById('loading').remove();
-          logDebug('FileReader error occurred');
-          alert("Error reading file. Please try again.");
-        };
+        reader.onerror = () => reject(new Error('Failed to read file. Please try again.'));
+        reader.onabort = () => reject(new Error('File reading was aborted. Please try again.'));
         
         reader.readAsDataURL(file);
       });
     }
 
+    // Load Photopea with retry mechanism
+    function loadPhotopeaWithRetry(iframe, encoded, isMobile) {
+      return new Promise((resolve, reject) => {
+        const maxRetries = 3;
+        let attempts = 0;
+        
+        const attemptLoad = () => {
+          attempts++;
+          logDebug(`Loading Photopea attempt ${attempts}/${maxRetries}`);
+          
+          const loadTimeout = setTimeout(() => {
+            if (attempts < maxRetries) {
+              logDebug(`Load timeout on attempt ${attempts}, retrying...`, 'warn');
+              attemptLoad();
+            } else {
+              reject(new Error('Loading timeout after all retries. Please try again.'));
+            }
+          }, isMobile ? 30000 : 15000);
+          
+          iframe.onload = () => {
+            clearTimeout(loadTimeout);
+            logDebug('Photopea iframe loaded successfully');
+            resolve();
+          };
+          
+          iframe.onerror = () => {
+            clearTimeout(loadTimeout);
+            if (attempts < maxRetries) {
+              logDebug(`Load error on attempt ${attempts}, retrying...`, 'warn');
+              setTimeout(attemptLoad, 1000 * attempts);
+            } else {
+              reject(new Error('Failed to load image editor after all retries.'));
+            }
+          };
+          
+          iframe.src = "https://www.photopea.com#" + encoded;
+        };
+        
+        attemptLoad();
+      });
+    }
+
+    // Get user-friendly error message
+    function getErrorMessage(error, validation) {
+      const baseMessage = error.message;
+      
+      if (validation.isMobile) {
+        return `Mobile Error: ${baseMessage}\n\nTroubleshooting:\n1. Use files smaller than 10MB\n2. Ensure stable WiFi connection\n3. Try desktop version if issues persist\n4. Clear browser cache and try again`;
+      } else {
+        return `Error: ${baseMessage}\n\nTroubleshooting:\n1. Check internet connection\n2. Try refreshing the page\n3. Use a different browser\n4. Contact support if issue persists`;
+      }
+    }
+
+    // Enhanced close function
     function closePhotopeaApp() {
       const iframe = document.getElementById('photopeaFrame');
       iframe.src = ""; // reset
       document.getElementById('uploadSection').classList.remove('hidden');
       document.getElementById('photopeaApp').classList.add('hidden');
       logDebug('Photopea app closed');
+      
+      // Clear any stored data
+      if (window.debugLogs) {
+        window.debugLogs = [];
+      }
     }
 
+    // Enhanced add image function with better error handling
     function addImageToPhotopea() {
-      // Create hidden file input to add more images
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = '.psd,.png,.jpg,.jpeg,.webp';
-      input.onchange = function(event) {
+      
+      input.onchange = async function(event) {
         const file = event.target.files[0];
         if (!file) return;
         
-        logDebug('Adding additional image: ' + file.name);
-        
-        // Check file size for mobile
-        if (isMobile() && file.size > 10 * 1024 * 1024) {
-          alert("File too large for mobile. Please use a smaller file (< 10MB).");
+        // Validate file
+        const validation = validateFile(file);
+        if (!validation.valid) {
+          alert(`Cannot add image:\n${validation.errors.join('\n')}`);
           return;
         }
         
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          try {
-            const dataUrl = e.target.result;
-            // Send script to open image in Photopea
-            const script = `app.open('${dataUrl}');`;
-            const message = {
-              type: 'script',
-              script: script
-            };
-            const iframe = document.getElementById('photopeaFrame');
-            if (iframe.contentWindow) {
-              iframe.contentWindow.postMessage(message, '*');
-              logDebug('Sent add image message to Photopea');
-            } else {
-              logDebug('Iframe contentWindow not available');
-              alert("Editor not ready. Please wait a moment and try again.");
-            }
-          } catch (error) {
-            console.error('Error adding image:', error);
-            logDebug('Error adding image: ' + error.message);
-            alert("Error adding image. Please try again.");
+        logDebug(`Adding additional image: ${file.name}`);
+        
+        try {
+          const dataUrl = await readFileAsDataURL(file);
+          const script = `app.open('${dataUrl}');`;
+          const message = {
+            type: 'script',
+            script: script
+          };
+          
+          const iframe = document.getElementById('photopeaFrame');
+          if (iframe.contentWindow) {
+            iframe.contentWindow.postMessage(message, '*');
+            logDebug('Sent add image message to Photopea');
+          } else {
+            throw new Error('Editor not ready');
           }
-        };
-        reader.readAsDataURL(file);
+        } catch (error) {
+          logDebug(`Error adding image: ${error.message}`, 'error');
+          alert(`Failed to add image: ${error.message}`);
+        }
       };
+      
       input.click();
     }
 
-    // Add mobile-specific initialization
+    // Enhanced initialization with device optimization
     document.addEventListener('DOMContentLoaded', function() {
-      if (isMobile()) {
-        logDebug('Mobile device detected');
-        
+      const capabilities = getDeviceCapabilities();
+      logDebug('Page initialized with device capabilities');
+      
+      if (capabilities.isMobile) {
         // Show mobile warning
         const mobileWarning = document.getElementById('mobileWarning');
         if (mobileWarning) {
@@ -409,10 +626,13 @@
         fileInput.addEventListener('change', function() {
           const file = this.files[0];
           if (file) {
-            logDebug('File selected: ' + file.name + ', size: ' + file.size);
+            const validation = validateFile(file);
+            logDebug(`File selected: ${file.name}, validation: ${validation.valid}`);
             
-            // Show file size warning for large files on mobile
-            if (file.size > 5 * 1024 * 1024) { // 5MB
+            if (!validation.valid) {
+              alert(`File issue detected:\n${validation.errors.join('\n')}`);
+              this.value = ''; // Clear invalid file
+            } else if (file.size > 5 * 1024 * 1024) {
               alert("Large file detected on mobile. This may take longer to load. Consider using a smaller file for better performance.");
             }
           }
@@ -429,7 +649,41 @@
           });
         }
       }
+      
+      // Add global error handler
+      window.addEventListener('error', function(event) {
+        logDebug(`Global error: ${event.error?.message || event.message}`, 'error');
+      });
+      
+      // Add unhandled promise rejection handler
+      window.addEventListener('unhandledrejection', function(event) {
+        logDebug(`Unhandled promise rejection: ${event.reason}`, 'error');
+      });
+      
+      // Add network status change listener
+      window.addEventListener('online', () => {
+        logDebug('Device came online');
+      });
+      
+      window.addEventListener('offline', () => {
+        logDebug('Device went offline', 'warn');
+      });
     });
+
+    // Add debug function for troubleshooting
+    window.debugText2Img = function() {
+      const capabilities = getDeviceCapabilities();
+      const logs = window.debugLogs || [];
+      
+      console.group('Text2 Img Design Debug Info');
+      console.log('Device Capabilities:', capabilities);
+      console.log('Debug Logs:', logs);
+      console.log('Current Network Status:', navigator.onLine);
+      console.log('User Agent:', navigator.userAgent);
+      console.groupEnd();
+      
+      return { capabilities, logs, networkStatus: navigator.onLine };
+    };
   </script>
 </body>
 </html>
