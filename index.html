@@ -330,12 +330,7 @@
         errors.push(`File type ${fileExtension} not supported. Allowed: ${allowedTypes.join(', ')}`);
       }
       
-      // Check file size with device-specific limits
-      const capabilities = getDeviceCapabilities();
-      const maxSize = capabilities.isMobile ? 10 * 1024 * 1024 : 50 * 1024 * 1024; // 10MB mobile, 50MB desktop
-      if (file.size > maxSize) {
-        errors.push(`File too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Max: ${(maxSize / 1024 / 1024).toFixed(0)}MB`);
-      }
+      // File size check removed - no size limitations
       
       // Check if file is corrupted
       if (file.size === 0) {
@@ -611,8 +606,6 @@
             if (!validation.valid) {
               alert(`File issue detected:\n${validation.errors.join('\n')}`);
               this.value = ''; // Clear invalid file
-            } else if (file.size > 5 * 1024 * 1024) {
-              alert("Large file detected on mobile. This may take longer to load. Consider using a smaller file for better performance.");
             }
           }
         });
