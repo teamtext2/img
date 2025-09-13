@@ -135,8 +135,8 @@
               <p>• Ensure stable internet connection</p>
               <p>• Try landscape orientation</p>
             </div>
-            <button onclick="openPhotopeaInNewTab()" class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
-              Open in New Tab
+            <button onclick="openPhotopeaInApp()" class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+              Open Editor
             </button>
           </div>
         </div>
@@ -592,17 +592,17 @@
       }
     }
 
-    // Function to open Photopea in new tab for mobile users
-    function openPhotopeaInNewTab() {
+    // Function to open Photopea directly in the app for mobile users
+    function openPhotopeaInApp() {
       const fileInput = document.getElementById('fileInput');
       const file = fileInput.files[0];
-      
+
       if (!file) {
         alert('Please select a file first');
         return;
       }
-      
-      // Create a temporary link to open Photopea with the file
+
+      // Read file and load into Photopea iframe
       const reader = new FileReader();
       reader.onload = function(e) {
         const dataUrl = e.target.result;
@@ -610,15 +610,22 @@
           files: [dataUrl],
           script: 'app.echoToOE("Image loaded into Photopea successfully!");'
         };
-        
+
         const encoded = encodeURIComponent(JSON.stringify(config));
-        const photopeaUrl = "https://www.photopea.com#" + encoded;
-        
-        // Open in new tab
-        window.open(photopeaUrl, '_blank');
-        logDebug('Opened Photopea in new tab for mobile user');
+        const iframe = document.getElementById('photopeaFrame');
+
+        if (iframe) {
+          iframe.src = "https://www.photopea.com#" + encoded;
+          document.getElementById('uploadSection').classList.add('hidden');
+          document.getElementById('photopeaApp').classList.remove('hidden');
+          document.getElementById('mobileInterface').classList.remove('hidden');
+          document.getElementById('desktopInterface').classList.add('hidden');
+          logDebug('Loaded Photopea directly in app for mobile user');
+        } else {
+          alert('Failed to initialize editor. Please try again.');
+        }
       };
-      
+
       reader.readAsDataURL(file);
     }
 
