@@ -80,63 +80,82 @@
   </script>
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'dark-bg': '#121212',
+            'dark-bg-alt': '#1A1A1A',
+            'dark-surface': '#1E1E1E',
+            'dark-surface-alt': '#242424',
+            'dark-text': '#FFFFFF',
+            'dark-text-muted': '#B0B0B0',
+            'accent-blue': '#1E90FF',
+            'accent-blue-dark': '#1976D2'
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body class="bg-gray-100 font-sans min-h-screen flex flex-col">
+<body class="bg-dark-bg font-sans min-h-screen flex flex-col text-dark-text">
   <!-- Header -->
-  <header class="bg-white shadow-md w-full sticky top-0 z-50">
+  <header class="bg-dark-surface shadow-lg w-full sticky top-0 z-50 border-b border-dark-surface-alt">
     <div class="max-w-6xl mx-auto flex items-center py-3 px-4">
       <a href="https://text2.click" class="flex items-center gap-3">
-        <img src="https://img.text2.click/favicon.ico" alt="Text2 Img Design logo" class="w-8 h-8 md:w-10 md:h-10 rounded shadow" />
-        <span class="text-xl md:text-2xl font-bold text-indigo-700 tracking-wide">Text2</span>
+        <img src="https://img.text2.click/favicon.ico" alt="Text2 Img Design logo" class="w-8 h-8 md:w-10 md:h-10 rounded shadow-lg" />
+        <span class="text-xl md:text-2xl font-bold text-accent-blue tracking-wide">Text2</span>
       </a>
-      <span class="ml-2 md:ml-4 text-gray-500 text-sm md:text-lg font-semibold hidden sm:block">| Img Design - design your photo</span>
+      <span class="ml-2 md:ml-4 text-dark-text-muted text-sm md:text-lg font-semibold hidden sm:block">| Img Design - design your photo</span>
     </div>
   </header>
 
   <main class="flex-1 flex flex-col items-center justify-center py-4 md:py-8 px-2" id="mainContent">
 
     <!-- Upload interface -->
-    <div id="uploadSection" class="bg-white p-4 md:p-8 rounded-2xl shadow-xl w-full max-w-xl text-center border border-indigo-100">
-      <label class="block text-base md:text-lg font-semibold mb-2">📂 Select a PSD / PNG / JPG image file from your device:</label>
-      <input id="fileInput" type="file" accept=".psd,.png,.jpg,.jpeg,.webp" class="mb-4 block w-full text-gray-800 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-sm md:text-base">
+    <div id="uploadSection" class="bg-dark-surface p-4 md:p-8 rounded-2xl shadow-2xl w-full max-w-xl text-center border border-dark-surface-alt">
+      <label class="block text-base md:text-lg font-semibold mb-2 text-dark-text">📂 Select a PSD / PNG / JPG image file from your device:</label>
+      <input id="fileInput" type="file" accept=".psd,.png,.jpg,.jpeg,.webp" class="mb-4 block w-full text-dark-text bg-dark-bg border border-dark-surface-alt rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent-blue text-sm md:text-base">
       
-      <button onclick="uploadToPhotopea()" class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 transition text-sm md:text-base">Start Designing with Text2 Img Design</button>
+      <button onclick="uploadToPhotopea()" class="w-full bg-accent-blue text-dark-text font-bold py-2 px-4 rounded-lg hover:bg-accent-blue-dark transition text-sm md:text-base shadow-lg">Start Designing with Text2 Img Design</button>
       
       <!-- Mobile warning -->
-      <div id="mobileWarning" class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800 text-sm hidden">
-        <p class="font-semibold">📱 Mobile Device Detected</p>
+      <div id="mobileWarning" class="mt-4 p-3 bg-dark-surface-alt border border-accent-blue/30 rounded-lg text-dark-text-muted text-sm hidden">
+        <p class="font-semibold text-accent-blue">📱 Mobile Device Detected</p>
         <p>For best experience, ensure stable internet connection and use files under 50MB.</p>
       </div>
     </div>
 
     <!-- Fullscreen app interface after upload -->
-    <div id="photopeaApp" class="hidden fixed inset-0 z-50 flex flex-col bg-white">
+    <div id="photopeaApp" class="hidden fixed inset-0 z-50 flex flex-col bg-dark-bg">
       <!-- Toolbar -->
-      <div class="flex items-center justify-between bg-indigo-700 px-2 md:px-4 py-2 shadow-lg">
+      <div class="flex items-center justify-between bg-dark-surface px-2 md:px-4 py-2 shadow-lg border-b border-dark-surface-alt">
         <div class="flex items-center gap-2">
           <a href="https://text2.click" target="_blank" class="flex items-center gap-2">
-            <img src="https://img.text2.click/favicon.ico" alt="Text2 Img Design logo" class="w-6 h-6 md:w-8 md:h-8 rounded" />
-            <span class="text-white text-lg md:text-xl font-bold tracking-wide">Text2</span>
+            <img src="https://img.text2.click/favicon.ico" alt="Text2 Img Design logo" class="w-6 h-6 md:w-8 md:h-8 rounded shadow-lg" />
+            <span class="text-accent-blue text-lg md:text-xl font-bold tracking-wide">Text2</span>
           </a>
         </div>
         <div class="flex items-center gap-1 md:gap-2">
-          <button onclick="addImageToPhotopea()" class="bg-white text-indigo-700 font-semibold px-2 md:px-3 py-1 rounded hover:bg-indigo-100 transition flex items-center gap-1 text-xs md:text-sm"><span>➕</span> <span class="hidden sm:inline">Add Image</span></button>
-          <button onclick="closePhotopeaApp()" class="bg-red-500 text-white font-bold px-2 md:px-3 py-1 rounded hover:bg-red-600 transition ml-1 md:ml-2 text-xs md:text-sm">✖ <span class="hidden sm:inline">Close</span></button>
+          <button onclick="addImageToPhotopea()" class="bg-dark-text text-dark-bg font-semibold px-2 md:px-3 py-1 rounded hover:bg-dark-text-muted transition flex items-center gap-1 text-xs md:text-sm"><span>➕</span> <span class="hidden sm:inline">Add Image</span></button>
+          <button id="btnQuickExport" onclick="exportPngQuick()" class="hidden bg-green-600 text-dark-text font-bold px-2 md:px-3 py-1 rounded hover:bg-green-700 transition text-xs md:text-sm">⬇ <span class="hidden sm:inline">Xuất PNG nhanh</span></button>
+          <button onclick="closePhotopeaApp()" class="bg-red-600 text-dark-text font-bold px-2 md:px-3 py-1 rounded hover:bg-red-700 transition ml-1 md:ml-2 text-xs md:text-sm">✖ <span class="hidden sm:inline">Close</span></button>
         </div>
       </div>
       <!-- Mobile-specific interface -->
       <div id="mobileInterface" class="md:hidden flex flex-col flex-1">
-        <div class="flex-1 flex items-center justify-center bg-gray-50">
+        <div class="flex-1 flex items-center justify-center bg-dark-bg-alt">
           <div class="text-center p-6">
             <div class="text-6xl mb-4">📱</div>
-            <h3 class="text-xl font-semibold mb-2">Mobile Editor</h3>
-            <p class="text-gray-600 mb-4">For the best editing experience on mobile, we recommend:</p>
-            <div class="space-y-2 text-sm text-gray-500">
+            <h3 class="text-xl font-semibold mb-2 text-dark-text">Mobile Editor</h3>
+            <p class="text-dark-text-muted mb-4">For the best editing experience on mobile, we recommend:</p>
+            <div class="space-y-2 text-sm text-dark-text-muted">
               <p>• Use desktop version for complex editing</p>
               <p>• Ensure stable internet connection</p>
               <p>• Try landscape orientation</p>
             </div>
-            <button onclick="openPhotopeaInApp()" class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+            <button onclick="openPhotopeaInApp()" class="mt-4 bg-accent-blue text-dark-text px-4 py-2 rounded-lg hover:bg-accent-blue-dark transition shadow-lg">
               Open Editor
             </button>
           </div>
@@ -146,22 +165,39 @@
       <!-- Desktop iframe interface -->
       <div id="desktopInterface" class="hidden md:flex flex-col flex-1">
         <div class="flex-1 relative">
-          <iframe id="photopeaFrame" class="w-full h-full border-none" style="min-height: 70vh;" title="Text2 Img Design Editor"></iframe>
+          <iframe id="photopeaFrame" class="w-full h-full border-none bg-dark-bg" style="min-height: 70vh;" title="Text2 Img Design Editor"></iframe>
         </div>
       </div>
     </div>
   </main>
 
+  <!-- Mobile-only notification banner (shown only on mobile, then we force desktop layout) -->
+  <div id="mobileNotifyBanner" class="hidden fixed bottom-0 inset-x-0 z-[60]">
+    <div class="mx-auto max-w-6xl px-3 pb-3">
+      <div class="rounded-xl shadow-lg border border-accent-blue/30 bg-dark-surface/95 backdrop-blur p-3 flex items-start gap-3">
+        <div class="text-2xl">🔔</div>
+        <div class="flex-1">
+          <p class="text-sm text-dark-text font-semibold mb-1">Đang dùng thiết bị di động</p>
+          <p class="text-xs text-dark-text-muted">Đã chuyển sang chế độ trang web dành cho máy tính để sử dụng đầy đủ. Bật thông báo để nhận cập nhật khi xử lý ảnh.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="btnEnableNotify" class="bg-accent-blue text-dark-text text-xs font-bold px-3 py-2 rounded-lg hover:bg-accent-blue-dark shadow-lg">Bật thông báo</button>
+          <button id="btnDismissNotify" class="text-xs text-dark-text-muted hover:text-dark-text">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
-  <footer class="bg-white border-t border-indigo-100 py-4 mt-8 shadow-inner">
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between px-4 text-gray-500 text-sm">
+  <footer class="bg-dark-surface border-t border-dark-surface-alt py-4 mt-8 shadow-inner">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between px-4 text-dark-text-muted text-sm">
       <div class="flex items-center gap-2">
         <img src="https://img.text2.click/favicon.ico" alt="Text2 Img Design logo" class="w-6 h-6" />
-        <span>© 2024 <a href="https://text2.click" class="text-indigo-600 hover:underline font-semibold">Text2 Img Design</a>.Text2 Img Design is powered by Photopea.</span>
+        <span>© 2024 <a href="https://text2.click" class="text-accent-blue hover:underline font-semibold">Text2 Img Design</a>.Text2 Img Design is powered by Photopea.</span>
       </div>
       <div class="mt-2 md:mt-0">
-        <a href="https://text2.click" class="hover:underline">Home</a> |
-        <a href="mailto:support@text2.click" class="hover:underline">Contact</a>
+        <a href="https://text2.click" class="hover:underline hover:text-accent-blue">Home</a> |
+        <a href="mailto:support@text2.click" class="hover:underline hover:text-accent-blue">Contact</a>
       </div>
     </div>
   </footer>
@@ -169,6 +205,8 @@
   <script>
     // Global variables
     let globalCapabilities = null;
+    const FORCE_DESKTOP_ON_MOBILE = true; // Force desktop layout for mobile devices
+    let originalMobileDetection = null; // snapshot before forcing
 
     // Enhanced mobile detection with better device profiling
     function isMobile() {
@@ -180,8 +218,13 @@
     function getDeviceCapabilities() {
       if (globalCapabilities) return globalCapabilities;
       
+      const detectedMobile = isMobile();
+      originalMobileDetection = detectedMobile;
+
+      const forcedMobileFlag = FORCE_DESKTOP_ON_MOBILE && detectedMobile;
+
       globalCapabilities = {
-        isMobile: isMobile(),
+        isMobile: forcedMobileFlag ? false : detectedMobile,
         hasTouch: 'ontouchstart' in window,
         hasServiceWorker: 'serviceWorker' in navigator,
         hasWebGL: (() => {
@@ -198,7 +241,8 @@
           return connection ? connection.effectiveType : 'unknown';
         })(),
         memory: navigator.deviceMemory || 'unknown',
-        cores: navigator.hardwareConcurrency || 'unknown'
+        cores: navigator.hardwareConcurrency || 'unknown',
+        forcedDesktop: forcedMobileFlag
       };
       
       console.log('Device capabilities:', globalCapabilities);
@@ -429,6 +473,8 @@
         // Step 3: Read and process file
         updateLoadingStatus(loadingDiv, 'Processing image file...');
         const dataUrl = await readFileAsDataURL(file);
+        // Cache session for restore later
+        cacheLastSession(dataUrl);
         
         // Step 4: Prepare Photopea configuration
         updateLoadingStatus(loadingDiv, 'Preparing editor...');
@@ -476,13 +522,13 @@
     function createLoadingIndicator() {
       const loadingDiv = document.createElement('div');
       loadingDiv.id = 'loading';
-      loadingDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+      loadingDiv.className = 'fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50';
       loadingDiv.innerHTML = `
-        <div class="bg-white p-6 rounded-lg text-center max-w-md mx-4">
-          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
-          <h3 class="text-lg font-semibold mb-2">Loading Image Editor</h3>
-          <p id="loadingStatus" class="text-gray-600">Initializing...</p>
-          <div class="mt-4 text-xs text-gray-500">
+        <div class="bg-dark-surface p-6 rounded-lg text-center max-w-md mx-4 border border-dark-surface-alt shadow-2xl">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-accent-blue mx-auto mb-4"></div>
+          <h3 class="text-lg font-semibold mb-2 text-dark-text">Loading Image Editor</h3>
+          <p id="loadingStatus" class="text-dark-text-muted">Initializing...</p>
+          <div class="mt-4 text-xs text-dark-text-muted">
             <p>This may take a moment on mobile devices</p>
             <p>Please ensure stable internet connection</p>
           </div>
@@ -543,6 +589,12 @@
           iframe.onload = () => {
             clearTimeout(loadTimeout);
             logDebug('Photopea iframe loaded successfully');
+            // Mark editor ready, show quick export
+            window.photopeaReady = true;
+            const btnQE = document.getElementById('btnQuickExport');
+            if (btnQE) btnQE.classList.remove('hidden');
+            // Try restore last session
+            tryRestoreLastSession();
             resolve();
           };
           
@@ -561,6 +613,162 @@
         
         attemptLoad();
       });
+    }
+
+    // Quick export PNG using Photopea API
+    async function exportPngQuick() {
+      try {
+        const iframe = document.getElementById('photopeaFrame');
+        if (!iframe || !iframe.contentWindow) throw new Error('Editor not ready');
+
+        const requestId = 'qe-' + Date.now();
+        const exportScript = `var doc = app.activeDocument; if (doc){var png = doc.saveToOE('png'); app.echoToOE('QE_DONE:'+png.length);}`;
+        const message = { type: 'script', script: exportScript, requestId };
+
+        const result = await postMessageAwaitResponse(iframe, message, 30000);
+        // result will be echoed as text length; actual binary comes via onmessage with ArrayBuffer
+      } catch (e) {
+        logDebug('Quick export failed: ' + e.message, 'error');
+        alert('Xuất PNG thất bại: ' + e.message);
+      }
+    }
+
+    // PostMessage helper awaiting a one-time response
+    function postMessageAwaitResponse(iframe, data, timeoutMs = 15000) {
+      return new Promise((resolve, reject) => {
+        let settled = false;
+        const timer = setTimeout(() => {
+          if (!settled) {
+            settled = true;
+            window.removeEventListener('message', onMsg);
+            reject(new Error('Timeout chờ phản hồi')); 
+          }
+        }, timeoutMs);
+
+        function onMsg(ev) {
+          // Accept messages from Photopea regardless of origin (Photopea posts with '*')
+          if (!ev || !ev.data) return;
+          const data = ev.data;
+          // Handle binary export (ArrayBuffer) or text echoes
+          if (data instanceof ArrayBuffer) {
+            // Save binary and trigger download
+            cacheLastExport(data, 'image/png');
+            triggerDownload(data, 'export.png');
+            resolve({ ok: true, binary: true });
+            cleanup();
+            return;
+          }
+          if (typeof data === 'string' && data.indexOf('QE_DONE:') === 0) {
+            // Length info received; actual data should come as ArrayBuffer next
+            return; 
+          }
+        }
+
+        function cleanup() {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timer);
+          window.removeEventListener('message', onMsg);
+        }
+
+        window.addEventListener('message', onMsg);
+        iframe.contentWindow.postMessage(data, '*');
+      });
+    }
+
+    // Trigger file download from ArrayBuffer
+    function triggerDownload(arrayBuffer, filename) {
+      const blob = new Blob([arrayBuffer], { type: 'image/png' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+    }
+
+    // IndexedDB helpers for caching last work/export
+    const IDB_NAME = 'text2-img-cache';
+    const IDB_VERSION = 1;
+    const IDB_STORE_EXPORT = 'exports';
+    const IDB_STORE_SESSION = 'sessions';
+
+    function openIDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(IDB_NAME, IDB_VERSION);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(IDB_STORE_EXPORT)) db.createObjectStore(IDB_STORE_EXPORT);
+          if (!db.objectStoreNames.contains(IDB_STORE_SESSION)) db.createObjectStore(IDB_STORE_SESSION);
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function cacheLastExport(arrayBuffer, mime) {
+      try {
+        const db = await openIDB();
+        const tx = db.transaction(IDB_STORE_EXPORT, 'readwrite');
+        const store = tx.objectStore(IDB_STORE_EXPORT);
+        store.put({ data: arrayBuffer, mime, time: Date.now() }, 'last');
+        await tx.complete; // some browsers ignore; best-effort
+        db.close && db.close();
+      } catch (e) {
+        logDebug('Cache export failed: ' + e.message, 'warn');
+      }
+    }
+
+    async function getLastExport() {
+      try {
+        const db = await openIDB();
+        return await new Promise((resolve, reject) => {
+          const tx = db.transaction(IDB_STORE_EXPORT, 'readonly');
+          const store = tx.objectStore(IDB_STORE_EXPORT);
+          const req = store.get('last');
+          req.onsuccess = () => { db.close && db.close(); resolve(req.result || null); };
+          req.onerror = () => { db.close && db.close(); reject(req.error); };
+        });
+      } catch (e) { return null; }
+    }
+
+    // Cache and restore session: we store original uploaded file DataURL to reload
+    async function cacheLastSession(dataUrl) {
+      try {
+        const db = await openIDB();
+        const tx = db.transaction(IDB_STORE_SESSION, 'readwrite');
+        tx.objectStore(IDB_STORE_SESSION).put({ dataUrl, time: Date.now() }, 'last');
+        await tx.complete;
+        db.close && db.close();
+      } catch (e) {
+        logDebug('Cache session failed: ' + e.message, 'warn');
+      }
+    }
+
+    async function getLastSession() {
+      try {
+        const db = await openIDB();
+        return await new Promise((resolve, reject) => {
+          const tx = db.transaction(IDB_STORE_SESSION, 'readonly');
+          const req = tx.objectStore(IDB_STORE_SESSION).get('last');
+          req.onsuccess = () => { db.close && db.close(); resolve(req.result || null); };
+          req.onerror = () => { db.close && db.close(); reject(req.error); };
+        });
+      } catch (e) { return null; }
+    }
+
+    async function tryRestoreLastSession() {
+      const sess = await getLastSession();
+      if (!sess || !sess.dataUrl) return;
+      try {
+        const iframe = document.getElementById('photopeaFrame');
+        if (!iframe || !iframe.contentWindow) return;
+        const script = `app.open('${sess.dataUrl}'); app.echoToOE('RESTORED');`;
+        iframe.contentWindow.postMessage({ type: 'script', script }, '*');
+        logDebug('Restored last session image into editor');
+      } catch {}
     }
 
     // Get user-friendly error message
@@ -612,6 +820,9 @@
           script: 'app.echoToOE("Image loaded into Photopea successfully!");'
         };
 
+        // Cache session for restore later
+        cacheLastSession(dataUrl);
+
         const encoded = encodeURIComponent(JSON.stringify(config));
         const iframe = document.getElementById('photopeaFrame');
 
@@ -621,6 +832,11 @@
           document.getElementById('photopeaApp').classList.remove('hidden');
           document.getElementById('mobileInterface').classList.remove('hidden');
           document.getElementById('desktopInterface').classList.add('hidden');
+          // Mark ready and show quick export button for mobile load
+          window.photopeaReady = true;
+          const btnQE = document.getElementById('btnQuickExport');
+          if (btnQE) btnQE.classList.remove('hidden');
+          tryRestoreLastSession();
           logDebug('Loaded Photopea directly in app for mobile user');
         } else {
           alert('Failed to initialize editor. Please try again.');
@@ -685,6 +901,73 @@
       const capabilities = getDeviceCapabilities();
       logDebug('Page initialized with device capabilities');
       
+      // If mobile is detected and we force desktop, adjust viewport and show banner
+      if (capabilities.forcedDesktop) {
+        const viewport = document.querySelector('meta[name="viewport"]');
+        if (viewport) {
+          // Wider layout to emulate desktop on mobile
+          viewport.setAttribute('content', 'width=1200, initial-scale=0.7');
+        }
+
+        // Show mobile notification banner (only first visit in this session)
+        const bannerSeen = sessionStorage.getItem('mobileNotifyBannerSeen');
+        const banner = document.getElementById('mobileNotifyBanner');
+        if (banner && !bannerSeen) {
+          banner.classList.remove('hidden');
+        }
+
+        const btnDismiss = document.getElementById('btnDismissNotify');
+        if (btnDismiss) {
+          btnDismiss.addEventListener('click', () => {
+            sessionStorage.setItem('mobileNotifyBannerSeen', '1');
+            banner.classList.add('hidden');
+          });
+        }
+
+        const btnEnable = document.getElementById('btnEnableNotify');
+        if (btnEnable) {
+          btnEnable.addEventListener('click', async () => {
+            try {
+              if (!('Notification' in window)) {
+                alert('Trình duyệt không hỗ trợ thông báo.');
+                return;
+              }
+
+              const permission = await Notification.requestPermission();
+              if (permission !== 'granted') {
+                alert('Bạn đã từ chối bật thông báo.');
+                return;
+              }
+
+              if ('serviceWorker' in navigator) {
+                try {
+                  const reg = await navigator.serviceWorker.register('/sw.js');
+                  await reg.update();
+                  // Test notification
+                  if (reg.showNotification) {
+                    reg.showNotification('Text2 Img Design', {
+                      body: 'Thông báo đã được bật trên thiết bị di động.',
+                      icon: '/android-chrome-192x192.png',
+                      badge: '/favicon-32x32.png'
+                    });
+                  } else {
+                    new Notification('Text2 Img Design', { body: 'Thông báo đã được bật.' });
+                  }
+                } catch (e) {
+                  logDebug('Service worker registration failed: ' + e.message, 'error');
+                  new Notification('Text2 Img Design', { body: 'Thông báo được bật, nhưng không thể đăng ký SW.' });
+                }
+              }
+
+              sessionStorage.setItem('mobileNotifyBannerSeen', '1');
+              banner.classList.add('hidden');
+            } catch (e) {
+              logDebug('Enable notification error: ' + e.message, 'error');
+            }
+          });
+        }
+      }
+
       if (capabilities.isMobile) {
         // Show mobile warning
         const mobileWarning = document.getElementById('mobileWarning');
