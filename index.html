@@ -116,14 +116,24 @@
 
     <!-- Upload interface -->
     <div id="uploadSection" class="bg-dark-surface p-4 md:p-8 rounded-2xl shadow-2xl w-full max-w-xl text-center border border-dark-surface-alt">
-      <label class="block text-base md:text-lg font-semibold mb-2 text-dark-text">📂 Select a PSD / PNG / JPG image file from your device:</label>
+      <label class="block text-base md:text-lg font-semibold mb-2 text-dark-text">
+        <svg class="inline-block w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zM3 7a1 1 0 011-1h12a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1V7zM4 3a2 2 0 00-2 2v1a1 1 0 001 1h14a1 1 0 001-1V5a2 2 0 00-2-2H4z" clip-rule="evenodd" />
+        </svg>
+        Select a PSD / PNG / JPG image file from your device:
+      </label>
       <input id="fileInput" type="file" accept=".psd,.png,.jpg,.jpeg,.webp" class="mb-4 block w-full text-dark-text bg-dark-bg border border-dark-surface-alt rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent-blue text-sm md:text-base">
       
       <button onclick="uploadToPhotopea()" class="w-full bg-accent-blue text-dark-text font-bold py-2 px-4 rounded-lg hover:bg-accent-blue-dark transition text-sm md:text-base shadow-lg">Start Designing with Text2 Img Design</button>
       
       <!-- Mobile warning -->
       <div id="mobileWarning" class="mt-4 p-3 bg-dark-surface-alt border border-accent-blue/30 rounded-lg text-dark-text-muted text-sm hidden">
-        <p class="font-semibold text-accent-blue">📱 Mobile Device Detected</p>
+        <p class="font-semibold text-accent-blue">
+          <svg class="inline-block w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 3a1 1 0 011-1h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 10.846 2.632 12.97 4.414 15H15a1 1 0 000-2H6.28l-.01-.01L5.12 11h8.88a1 1 0 00.97-.757L16.22 4H4.54l-.44-1.78A1 1 0 003.22 2H2a1 1 0 100 2zm7 12a2 2 0 100 4 2 2 0 000-4zm6 0a2 2 0 100 4 2 2 0 000-4z"/>
+          </svg>
+          Mobile Device Detected
+        </p>
         <p>For best experience, ensure stable internet connection and use files under 50MB.</p>
       </div>
     </div>
@@ -139,9 +149,24 @@
           </a>
         </div>
         <div class="flex items-center gap-1 md:gap-2">
-          <button onclick="addImageToPhotopea()" class="bg-dark-text text-dark-bg font-semibold px-2 md:px-3 py-1 rounded hover:bg-dark-text-muted transition flex items-center gap-1 text-xs md:text-sm"><span>➕</span> <span class="hidden sm:inline">Add Image</span></button>
-          <button id="btnQuickExport" onclick="exportPngQuick()" class="hidden bg-green-600 text-dark-text font-bold px-2 md:px-3 py-1 rounded hover:bg-green-700 transition text-xs md:text-sm">⬇ <span class="hidden sm:inline">Xuất PNG nhanh</span></button>
-          <button onclick="closePhotopeaApp()" class="bg-red-600 text-dark-text font-bold px-2 md:px-3 py-1 rounded hover:bg-red-700 transition ml-1 md:ml-2 text-xs md:text-sm">✖ <span class="hidden sm:inline">Close</span></button>
+          <button onclick="addImageToPhotopea()" class="bg-dark-text text-dark-bg font-semibold px-2 md:px-3 py-1 rounded hover:bg-dark-text-muted transition flex items-center gap-1 text-xs md:text-sm">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+            <span class="hidden sm:inline">Add Image</span>
+          </button>
+          <button id="btnQuickExport" onclick="exportPngQuick()" class="hidden bg-green-600 text-dark-text font-bold px-2 md:px-3 py-1 rounded hover:bg-green-700 transition text-xs md:text-sm">
+            <svg class="w-4 h-4 inline-block mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="hidden sm:inline">Xuất PNG nhanh</span>
+          </button>
+          <button onclick="closePhotopeaApp()" class="bg-red-600 text-dark-text font-bold px-2 md:px-3 py-1 rounded hover:bg-red-700 transition ml-1 md:ml-2 text-xs md:text-sm">
+            <svg class="w-4 h-4 inline-block mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+            <span class="hidden sm:inline">Close</span>
+          </button>
         </div>
       </div>
       
@@ -150,13 +175,32 @@
       <div id="mobileInterface" class="hidden md:hidden flex flex-col flex-1">
         <div class="flex-1 flex items-center justify-center bg-dark-bg-alt">
           <div class="text-center p-6">
-            <div class="text-6xl mb-4">📱</div>
+            <div class="mb-4">
+              <svg class="w-16 h-16 mx-auto text-accent-blue" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 10.846 2.632 12.97 4.414 15H15a1 1 0 000-2H6.28l-.01-.01L5.12 11h8.88a1 1 0 00.97-.757L16.22 4H4.54l-.44-1.78A1 1 0 003.22 2H2a1 1 0 100 2zm7 12a2 2 0 100 4 2 2 0 000-4zm6 0a2 2 0 100 4 2 2 0 000-4z"/>
+              </svg>
+            </div>
             <h3 class="text-xl font-semibold mb-2 text-dark-text">Mobile Editor</h3>
             <p class="text-dark-text-muted mb-4">For the best editing experience on mobile, we recommend:</p>
             <div class="space-y-2 text-sm text-dark-text-muted">
-              <p>• Use desktop version for complex editing</p>
-              <p>• Ensure stable internet connection</p>
-              <p>• Try landscape orientation</p>
+              <p>
+                <svg class="inline-block w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                Use desktop version for complex editing
+              </p>
+              <p>
+                <svg class="inline-block w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                Ensure stable internet connection
+              </p>
+              <p>
+                <svg class="inline-block w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                Try landscape orientation
+              </p>
             </div>
             <!-- TỐI ƯU: Nút này giờ sẽ tải iframe khi được nhấp -->
             <button onclick="openPhotopeaInApp()" class="mt-4 bg-accent-blue text-dark-text px-4 py-2 rounded-lg hover:bg-accent-blue-dark transition shadow-lg">
