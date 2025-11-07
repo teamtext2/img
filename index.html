@@ -2,10 +2,11 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- TỐI ƯU: Đã sửa lại viewport để responsive thực sự -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <!-- SEO Meta Tags -->
-  <title>Text2 - Img Design </title>
+  <title>Text2 - Img Design</title>
   <meta name="description" content="Text2 Img Design - Free AI-powered image design tool. Edit PSD, PNG, JPG files online with professional tools. Create stunning designs with our advanced image editor.">
   <meta name="keywords" content="Text2 Img Design, Img Design, AI Image Design, Online Image Editor, PSD Editor, Photo Editor, Design Tool, Free Image Design, Text2 Design">
   <meta name="author" content="Text2">
@@ -16,7 +17,7 @@
   <meta property="og:description" content="Free AI-powered image design tool. Edit PSD, PNG, JPG files online with professional tools.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://img.text2.click">
-  <meta property="og:image" content="https://img.text2.click/logoc.png">
+  <meta property="og:image" content="https://img.text2.click/favicon.ico">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
   <meta property="og:image:alt" content="Text2 Img Design Logo">
@@ -26,7 +27,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Text2 - Img Design | AI Image Design Tool">
   <meta name="twitter:description" content="Free AI-powered image design tool. Edit PSD, PNG, JPG files online with professional tools.">
-  <meta name="twitter:image" content="https://img.text2.click/logoc.png">
+  <meta name="twitter:image" content="https://img.text2.click/favicon.ico">
   <meta name="twitter:image:alt" content="Text2 Img Design Logo">
   
   <!-- Canonical URL -->
@@ -48,8 +49,8 @@
     "url": "https://img.text2.click",
     "applicationCategory": "DesignApplication",
     "operatingSystem": "Web Browser",
-    "logo": "https://img.text2.click/logoc.png",
-    "image": "https://img.text2.click/logoc.png",
+    "logo": "https://img.text2.click/favicon.ico",
+    "image": "https://img.text2.click/favicon.ico",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -59,18 +60,18 @@
       "@type": "Organization",
       "name": "Text2",
       "url": "https://text2.click",
-      "logo": "https://img.text2.click/logoc.png"
+      "logo": "https://img.text2.click/favicon.ico"
     },
     "publisher": {
       "@type": "Organization",
       "name": "Text2",
-      "logo": "https://img.text2.click/logoc.png"
+      "logo": "https://img.text2.click/favicon.ico"
     }
   }
   </script>
 
   <!-- Google tag (gtag.js) - GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEFG123"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6J85STMJ14"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -143,8 +144,10 @@
           <button onclick="closePhotopeaApp()" class="bg-red-600 text-dark-text font-bold px-2 md:px-3 py-1 rounded hover:bg-red-700 transition ml-1 md:ml-2 text-xs md:text-sm">✖ <span class="hidden sm:inline">Close</span></button>
         </div>
       </div>
+      
+      <!-- TỐI ƯU: Giao diện mobile này giờ sẽ hoạt động như một màn hình "chờ" -->
       <!-- Mobile-specific interface -->
-      <div id="mobileInterface" class="md:hidden flex flex-col flex-1">
+      <div id="mobileInterface" class="hidden md:hidden flex flex-col flex-1">
         <div class="flex-1 flex items-center justify-center bg-dark-bg-alt">
           <div class="text-center p-6">
             <div class="text-6xl mb-4">📱</div>
@@ -155,6 +158,7 @@
               <p>• Ensure stable internet connection</p>
               <p>• Try landscape orientation</p>
             </div>
+            <!-- TỐI ƯU: Nút này giờ sẽ tải iframe khi được nhấp -->
             <button onclick="openPhotopeaInApp()" class="mt-4 bg-accent-blue text-dark-text px-4 py-2 rounded-lg hover:bg-accent-blue-dark transition shadow-lg">
               Open Editor
             </button>
@@ -163,7 +167,8 @@
       </div>
       
       <!-- Desktop iframe interface -->
-      <div id="desktopInterface" class="hidden md:flex flex-col flex-1">
+      <!-- TỐI ƯU: Giao diện này giờ cũng được dùng cho mobile, sau khi nhấn "Open Editor" -->
+      <div id="desktopInterface" class="hidden flex-col flex-1">
         <div class="flex-1 relative">
           <iframe id="photopeaFrame" class="w-full h-full border-none bg-dark-bg" style="min-height: 70vh;" title="Text2 Img Design Editor"></iframe>
         </div>
@@ -171,22 +176,7 @@
     </div>
   </main>
 
-  <!-- Mobile-only notification banner (shown only on mobile, then we force desktop layout) -->
-  <div id="mobileNotifyBanner" class="hidden fixed bottom-0 inset-x-0 z-[60]">
-    <div class="mx-auto max-w-6xl px-3 pb-3">
-      <div class="rounded-xl shadow-lg border border-accent-blue/30 bg-dark-surface/95 backdrop-blur p-3 flex items-start gap-3">
-        <div class="text-2xl">🔔</div>
-        <div class="flex-1">
-          <p class="text-sm text-dark-text font-semibold mb-1">Đang dùng thiết bị di động</p>
-          <p class="text-xs text-dark-text-muted">Đã chuyển sang chế độ trang web dành cho máy tính để sử dụng đầy đủ. Bật thông báo để nhận cập nhật khi xử lý ảnh.</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <button id="btnEnableNotify" class="bg-accent-blue text-dark-text text-xs font-bold px-3 py-2 rounded-lg hover:bg-accent-blue-dark shadow-lg">Bật thông báo</button>
-          <button id="btnDismissNotify" class="text-xs text-dark-text-muted hover:text-dark-text">Đóng</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- TỐI ƯU: Đã xóa banner thông báo mobile vì logic mới làm nó không cần thiết -->
 
   <!-- Footer -->
   <footer class="bg-dark-surface border-t border-dark-surface-alt py-4 mt-8 shadow-inner">
@@ -202,13 +192,16 @@
     </div>
   </footer>
 
+  <!-- TỐI ƯU: Thêm container cho thông báo (toast) -->
+  <div id="toastContainer" class="fixed top-20 right-4 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm"></div>
+
   <script>
     // Global variables
     let globalCapabilities = null;
-    const FORCE_DESKTOP_ON_MOBILE = true; // Force desktop layout for mobile devices
-    let originalMobileDetection = null; // snapshot before forcing
+    // TỐI ƯU: Đã xóa cờ FORCE_DESKTOP_ON_MOBILE
+    // let originalMobileDetection = null; // TỐI ƯU: Không cần thiết nữa
 
-    // Enhanced mobile detection with better device profiling
+    // Enhanced mobile detection
     function isMobile() {
       return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
              window.innerWidth <= 768;
@@ -219,12 +212,10 @@
       if (globalCapabilities) return globalCapabilities;
       
       const detectedMobile = isMobile();
-      originalMobileDetection = detectedMobile;
-
-      const forcedMobileFlag = FORCE_DESKTOP_ON_MOBILE && detectedMobile;
 
       globalCapabilities = {
-        isMobile: forcedMobileFlag ? false : detectedMobile,
+        // TỐI ƯU: Chỉ cần lưu trạng thái mobile thực
+        isMobile: detectedMobile,
         hasTouch: 'ontouchstart' in window,
         hasServiceWorker: 'serviceWorker' in navigator,
         hasWebGL: (() => {
@@ -242,7 +233,7 @@
         })(),
         memory: navigator.deviceMemory || 'unknown',
         cores: navigator.hardwareConcurrency || 'unknown',
-        forcedDesktop: forcedMobileFlag
+        // TỐI ƯU: Đã xóa forcedDesktop
       };
       
       console.log('Device capabilities:', globalCapabilities);
@@ -267,7 +258,58 @@
       }
     }
 
-    // Enhanced network status checking with multiple fallbacks
+    // TỐI ƯU: Hàm hiển thị thông báo (toast) thay vì alert
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      let bgColor, textColor, borderColor;
+
+      switch (type) {
+        case 'error':
+          bgColor = 'bg-red-600';
+          textColor = 'text-white';
+          borderColor = 'border-red-800';
+          break;
+        case 'success':
+          bgColor = 'bg-green-600';
+          textColor = 'text-white';
+          borderColor = 'border-green-800';
+          break;
+        default: // info
+          bgColor = 'bg-dark-surface-alt';
+          textColor = 'text-dark-text';
+          borderColor = 'border-accent-blue';
+      }
+
+      toast.className = `p-4 rounded-lg shadow-lg border-l-4 transition-all duration-300 transform ${bgColor} ${textColor} ${borderColor}`;
+      toast.innerHTML = `<p class="font-semibold">${type.charAt(0).toUpperCase() + type.slice(1)}</p><p class="text-sm">${message}</p>`;
+
+      // Animation
+      requestAnimationFrame(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        container.appendChild(toast);
+        requestAnimationFrame(() => {
+          toast.style.opacity = '1';
+          toast.style.transform = 'translateX(0)';
+        });
+      });
+
+      // Auto-dismiss
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        toast.addEventListener('transitionend', () => {
+          if (toast.parentNode) {
+            toast.parentNode.removeChild(toast);
+          }
+        });
+      }, 4000);
+    }
+
+    // Enhanced network status checking
     function checkNetworkStatus() {
       const status = {
         isOnline: navigator.onLine,
@@ -276,13 +318,11 @@
         latency: null
       };
 
-      // Check basic online status
       if (!status.isOnline) {
         logDebug('Device is offline', 'error');
         return Promise.resolve(status);
       }
 
-      // Check connection type and quality
       const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
       if (connection) {
         status.connectionType = connection.effectiveType;
@@ -290,7 +330,6 @@
         logDebug(`Connection type: ${status.connectionType}, stable: ${status.isStable}`);
       }
 
-      // Test actual connectivity with multiple endpoints
       return testConnectivity().then(connectivityResult => {
         Object.assign(status, connectivityResult);
         return status;
@@ -300,7 +339,7 @@
       });
     }
 
-    // Test actual connectivity to multiple endpoints
+    // Test actual connectivity
     function testConnectivity() {
       const endpoints = [
         'https://www.google.com/favicon.ico',
@@ -390,30 +429,27 @@
       });
     }
 
-    // Enhanced file validation with better error handling
+    // Enhanced file validation
     function validateFile(file) {
       const errors = [];
       const capabilities = getDeviceCapabilities();
       
-      // Check file existence
       if (!file) {
         errors.push('No file selected');
         return { valid: false, errors };
       }
       
-      // Check file type
       const allowedTypes = ['.psd', '.png', '.jpg', '.jpeg', '.webp'];
       const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
       if (!allowedTypes.includes(fileExtension)) {
         errors.push(`File type ${fileExtension} not supported. Allowed: ${allowedTypes.join(', ')}`);
       }
       
-      // File size check - no size limitations for desktop, reasonable limits for mobile
-      // if (capabilities.isMobile && file.size > 100 * 1024 * 1024) { // 100MB limit for mobile
-      //   errors.push('File size too large for mobile devices. Please use files under 100MB or try on desktop.');
-      // }
+      // Giới hạn 50MB cho mobile như trong warning
+      if (capabilities.isMobile && file.size > 50 * 1024 * 1024) { 
+         errors.push('File size too large for mobile devices. Please use files under 50MB or try on desktop.');
+      }
       
-      // Check if file is corrupted
       if (file.size === 0) {
         errors.push('File appears to be empty or corrupted');
       }
@@ -435,7 +471,8 @@
       // Validate file first
       const validation = validateFile(file);
       if (!validation.valid) {
-        alert(`File validation failed:\n${validation.errors.join('\n')}`);
+        // TỐI ƯU: Sử dụng toast
+        showToast(`File validation failed:\n${validation.errors.join('\n')}`, 'error');
         return;
       }
 
@@ -490,17 +527,18 @@
         document.getElementById('uploadSection').classList.add('hidden');
         document.getElementById('photopeaApp').classList.remove('hidden');
         
-        // Show appropriate interface based on device
+        // TỐI ƯU: Logic hiển thị mobile/desktop đã được sửa
         const capabilities = getDeviceCapabilities();
         if (capabilities.isMobile) {
-          // For mobile, show mobile interface
+          // For mobile, show mobile interface "gate"
           document.getElementById('mobileInterface').classList.remove('hidden');
           document.getElementById('desktopInterface').classList.add('hidden');
-          logDebug('Showing mobile interface');
+          logDebug('Showing mobile interface gate');
         } else {
-          // For desktop, load Photopea iframe
+          // For desktop, load Photopea iframe immediately
           document.getElementById('mobileInterface').classList.add('hidden');
           document.getElementById('desktopInterface').classList.remove('hidden');
+          document.getElementById('desktopInterface').classList.add('flex'); // Thêm flex
           
           const iframe = document.getElementById('photopeaFrame');
           updateLoadingStatus(loadingDiv, 'Loading image editor...');
@@ -514,7 +552,8 @@
         
         // Show user-friendly error message
         const errorMessage = getErrorMessage(error, validation);
-        alert(errorMessage);
+        // TỐI ƯU: Sử dụng toast
+        showToast(errorMessage, 'error');
       }
     }
 
@@ -522,7 +561,7 @@
     function createLoadingIndicator() {
       const loadingDiv = document.createElement('div');
       loadingDiv.id = 'loading';
-      loadingDiv.className = 'fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50';
+      loadingDiv.className = 'fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[90]'; // z-index thấp hơn toast
       loadingDiv.innerHTML = `
         <div class="bg-dark-surface p-6 rounded-lg text-center max-w-md mx-4 border border-dark-surface-alt shadow-2xl">
           <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-accent-blue mx-auto mb-4"></div>
@@ -545,7 +584,7 @@
       }
     }
 
-    // Read file as data URL with error handling0
+    // Read file as data URL with error handling
     function readFileAsDataURL(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -584,7 +623,7 @@
             } else {
               reject(new Error('Loading timeout after all retries. Please try again.'));
             }
-          }, isMobile ? 30000 : 15000);
+          }, isMobile ? 30000 : 15000); // Timeout dài hơn cho mobile
           
           iframe.onload = () => {
             clearTimeout(loadTimeout);
@@ -629,27 +668,27 @@
         // result will be echoed as text length; actual binary comes via onmessage with ArrayBuffer
       } catch (e) {
         logDebug('Quick export failed: ' + e.message, 'error');
-        alert('Xuất PNG thất bại: ' + e.message);
+        // TỐI ƯU: Sử dụng toast
+        showToast('Xuất PNG thất bại: ' + e.message, 'error');
       }
     }
 
     // PostMessage helper awaiting a one-time response
+    // TỐI ƯU: Đã sửa lỗi rò rỉ (leak) event listener
     function postMessageAwaitResponse(iframe, data, timeoutMs = 15000) {
       return new Promise((resolve, reject) => {
         let settled = false;
+
         const timer = setTimeout(() => {
-          if (!settled) {
-            settled = true;
-            window.removeEventListener('message', onMsg);
-            reject(new Error('Timeout chờ phản hồi')); 
-          }
+          cleanup();
+          reject(new Error('Timeout chờ phản hồi'));  
         }, timeoutMs);
 
         function onMsg(ev) {
-          // Accept messages from Photopea regardless of origin (Photopea posts with '*')
+          // Accept messages from Photopea
           if (!ev || !ev.data) return;
           const data = ev.data;
-          // Handle binary export (ArrayBuffer) or text echoes
+          
           if (data instanceof ArrayBuffer) {
             // Save binary and trigger download
             cacheLastExport(data, 'image/png');
@@ -660,6 +699,7 @@
           }
           if (typeof data === 'string' && data.indexOf('QE_DONE:') === 0) {
             // Length info received; actual data should come as ArrayBuffer next
+            logDebug('Quick export initiated, waiting for binary data...');
             return; 
           }
         }
@@ -678,15 +718,21 @@
 
     // Trigger file download from ArrayBuffer
     function triggerDownload(arrayBuffer, filename) {
-      const blob = new Blob([arrayBuffer], { type: 'image/png' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      try {
+        const blob = new Blob([arrayBuffer], { type: 'image/png' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
+        showToast('Export successful! Download starting...', 'success');
+      } catch (e) {
+        logDebug('Trigger download failed: ' + e.message, 'error');
+        showToast('Export failed: Could not create download link.', 'error');
+      }
     }
 
     // IndexedDB helpers for caching last work/export
@@ -714,7 +760,7 @@
         const tx = db.transaction(IDB_STORE_EXPORT, 'readwrite');
         const store = tx.objectStore(IDB_STORE_EXPORT);
         store.put({ data: arrayBuffer, mime, time: Date.now() }, 'last');
-        await tx.complete; // some browsers ignore; best-effort
+        await tx.complete;
         db.close && db.close();
       } catch (e) {
         logDebug('Cache export failed: ' + e.message, 'warn');
@@ -734,7 +780,7 @@
       } catch (e) { return null; }
     }
 
-    // Cache and restore session: we store original uploaded file DataURL to reload
+    // Cache and restore session
     async function cacheLastSession(dataUrl) {
       try {
         const db = await openIDB();
@@ -776,7 +822,7 @@
       const baseMessage = error.message;
       
       if (validation.isMobile) {
-        return `Mobile Error: ${baseMessage}\n\nTroubleshooting:\n1. Use files smaller than 100MB\n2. Ensure stable WiFi connection\n3. Try desktop version if issues persist\n4. Clear browser cache and try again`;
+        return `Mobile Error: ${baseMessage}\n\nTroubleshooting:\n1. Use files smaller than 50MB\n2. Ensure stable WiFi connection\n3. Try desktop version if issues persist\n4. Clear browser cache and try again`;
       } else {
         return `Error: ${baseMessage}\n\nTroubleshooting:\n1. Check internet connection\n2. Try refreshing the page\n3. Use a different browser\n4. Contact support if issue persists`;
       }
@@ -785,13 +831,14 @@
     // Enhanced close function
     function closePhotopeaApp() {
       const iframe = document.getElementById('photopeaFrame');
-      if (iframe) iframe.src = ""; // reset if iframe exists
+      if (iframe) iframe.src = "about:blank"; // reset
       document.getElementById('uploadSection').classList.remove('hidden');
       document.getElementById('photopeaApp').classList.add('hidden');
       
       // Hide both interfaces
       document.getElementById('mobileInterface').classList.add('hidden');
       document.getElementById('desktopInterface').classList.add('hidden');
+      document.getElementById('desktopInterface').classList.remove('flex'); // Xóa flex
       
       logDebug('Photopea app closed');
       
@@ -801,49 +848,49 @@
       }
     }
 
+    // TỐI ƯU: Hàm này được viết lại hoàn toàn
     // Function to open Photopea directly in the app for mobile users
-    function openPhotopeaInApp() {
-      const fileInput = document.getElementById('fileInput');
-      const file = fileInput.files[0];
+    async function openPhotopeaInApp() {
+      logDebug('Mobile user clicked "Open Editor"');
+      const loadingDiv = createLoadingIndicator();
+      document.body.appendChild(loadingDiv);
 
-      if (!file) {
-        alert('Please select a file first');
-        return;
-      }
+      try {
+        // 1. Get the cached session data (DataURL)
+        const session = await getLastSession();
+        if (!session || !session.dataUrl) {
+          throw new Error('No image session found. Please go back and re-upload.');
+        }
 
-      // Read file and load into Photopea iframe
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const dataUrl = e.target.result;
+        // 2. Prepare config
+        updateLoadingStatus(loadingDiv, 'Preparing editor...');
         const config = {
-          files: [dataUrl],
+          files: [session.dataUrl],
           script: 'app.echoToOE("Image loaded into Photopea successfully!");'
         };
-
-        // Cache session for restore later
-        cacheLastSession(dataUrl);
-
         const encoded = encodeURIComponent(JSON.stringify(config));
+
+        // 3. Show desktop interface (with iframe), hide mobile one
+        document.getElementById('mobileInterface').classList.add('hidden');
+        document.getElementById('desktopInterface').classList.remove('hidden');
+        document.getElementById('desktopInterface').classList.add('flex'); // Thêm flex
+
+        // 4. Load the iframe
         const iframe = document.getElementById('photopeaFrame');
+        updateLoadingStatus(loadingDiv, 'Loading image editor...');
+        // Pass 'true' for isMobile to give it a longer timeout
+        await loadPhotopeaWithRetry(iframe, encoded, true); 
+        
+        logDebug('Photopea loaded successfully on mobile');
+        loadingDiv.remove();
 
-        if (iframe) {
-          iframe.src = "https://www.photopea.com#" + encoded;
-          document.getElementById('uploadSection').classList.add('hidden');
-          document.getElementById('photopeaApp').classList.remove('hidden');
-          document.getElementById('mobileInterface').classList.remove('hidden');
-          document.getElementById('desktopInterface').classList.add('hidden');
-          // Mark ready and show quick export button for mobile load
-          window.photopeaReady = true;
-          const btnQE = document.getElementById('btnQuickExport');
-          if (btnQE) btnQE.classList.remove('hidden');
-          tryRestoreLastSession();
-          logDebug('Loaded Photopea directly in app for mobile user');
-        } else {
-          alert('Failed to initialize editor. Please try again.');
-        }
-      };
-
-      reader.readAsDataURL(file);
+      } catch (error) {
+        loadingDiv.remove();
+        logDebug(`Failed to open Photopea in-app: ${error.message}`, 'error');
+        showToast(`Error: ${error.message}`, 'error');
+        // Optionally, send them back
+        // closePhotopeaApp(); 
+      }
     }
 
     // Enhanced add image function with better error handling
@@ -851,7 +898,8 @@
       const capabilities = getDeviceCapabilities();
       
       if (capabilities.isMobile) {
-        alert('Adding images is not supported on mobile. Please use the desktop version for full functionality.');
+        // TỐI ƯU: Sử dụng toast
+        showToast('Adding images is not supported on mobile. Please use the desktop version.', 'info');
         return;
       }
       
@@ -866,7 +914,8 @@
         // Validate file
         const validation = validateFile(file);
         if (!validation.valid) {
-          alert(`Cannot add image:\n${validation.errors.join('\n')}`);
+          // TỐI ƯU: Sử dụng toast
+          showToast(`Cannot add image:\n${validation.errors.join('\n')}`, 'error');
           return;
         }
         
@@ -889,7 +938,8 @@
           }
         } catch (error) {
           logDebug(`Error adding image: ${error.message}`, 'error');
-          alert(`Failed to add image: ${error.message}`);
+          // TỐI ƯU: Sử dụng toast
+          showToast(`Failed to add image: ${error.message}`, 'error');
         }
       };
       
@@ -901,73 +951,8 @@
       const capabilities = getDeviceCapabilities();
       logDebug('Page initialized with device capabilities');
       
-      // If mobile is detected and we force desktop, adjust viewport and show banner
-      if (capabilities.forcedDesktop) {
-        const viewport = document.querySelector('meta[name="viewport"]');
-        if (viewport) {
-          // Wider layout to emulate desktop on mobile
-          viewport.setAttribute('content', 'width=1200, initial-scale=0.7');
-        }
-
-        // Show mobile notification banner (only first visit in this session)
-        const bannerSeen = sessionStorage.getItem('mobileNotifyBannerSeen');
-        const banner = document.getElementById('mobileNotifyBanner');
-        if (banner && !bannerSeen) {
-          banner.classList.remove('hidden');
-        }
-
-        const btnDismiss = document.getElementById('btnDismissNotify');
-        if (btnDismiss) {
-          btnDismiss.addEventListener('click', () => {
-            sessionStorage.setItem('mobileNotifyBannerSeen', '1');
-            banner.classList.add('hidden');
-          });
-        }
-
-        const btnEnable = document.getElementById('btnEnableNotify');
-        if (btnEnable) {
-          btnEnable.addEventListener('click', async () => {
-            try {
-              if (!('Notification' in window)) {
-                alert('Trình duyệt không hỗ trợ thông báo.');
-                return;
-              }
-
-              const permission = await Notification.requestPermission();
-              if (permission !== 'granted') {
-                alert('Bạn đã từ chối bật thông báo.');
-                return;
-              }
-
-              if ('serviceWorker' in navigator) {
-                try {
-                  const reg = await navigator.serviceWorker.register('/sw.js');
-                  await reg.update();
-                  // Test notification
-                  if (reg.showNotification) {
-                    reg.showNotification('Text2 Img Design', {
-                      body: 'Thông báo đã được bật trên thiết bị di động.',
-                      icon: '/android-chrome-192x192.png',
-                      badge: '/favicon-32x32.png'
-                    });
-                  } else {
-                    new Notification('Text2 Img Design', { body: 'Thông báo đã được bật.' });
-                  }
-                } catch (e) {
-                  logDebug('Service worker registration failed: ' + e.message, 'error');
-                  new Notification('Text2 Img Design', { body: 'Thông báo được bật, nhưng không thể đăng ký SW.' });
-                }
-              }
-
-              sessionStorage.setItem('mobileNotifyBannerSeen', '1');
-              banner.classList.add('hidden');
-            } catch (e) {
-              logDebug('Enable notification error: ' + e.message, 'error');
-            }
-          });
-        }
-      }
-
+      // TỐI ƯU: Đã xóa logic 'forcedDesktop' và banner
+      
       if (capabilities.isMobile) {
         // Show mobile warning
         const mobileWarning = document.getElementById('mobileWarning');
@@ -984,7 +969,8 @@
             logDebug(`File selected: ${file.name}, validation: ${validation.valid}`);
             
             if (!validation.valid) {
-              alert(`File issue detected:\n${validation.errors.join('\n')}`);
+              // TỐI ƯU: Sử dụng toast
+              showToast(`File issue detected:\n${validation.errors.join('\n')}`, 'error');
               this.value = ''; // Clear invalid file
             }
           }
@@ -1015,10 +1001,12 @@
       // Add network status change listener
       window.addEventListener('online', () => {
         logDebug('Device came online');
+        showToast('Connection restored', 'success');
       });
       
       window.addEventListener('offline', () => {
         logDebug('Device went offline', 'warn');
+        showToast('Connection lost. Please check your network.', 'error');
       });
     });
 
@@ -1039,5 +1027,3 @@
   </script>
 </body>
 </html>
-
-
